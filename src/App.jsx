@@ -636,7 +636,7 @@ export default function App() {
 
   return (
     <div className="site-container">
-      <HeaderBanner siteConfig={siteConfig} />
+      <HeaderBanner siteConfig={siteConfig} user={user} onSaveSiteConfig={handleSaveSiteConfig} />
 
       <Navbar 
         activeTab={activeTab} 
