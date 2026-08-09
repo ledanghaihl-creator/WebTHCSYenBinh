@@ -1,10 +1,10 @@
 -- =========================================================================
--- KỊCH BẢN KHỞI TẠO CƠ SỞ DỮ LIỆU POSTGRESQL TRỌN GÓI CHO THCS YÊN BÌNH
--- Sao chép toàn bộ mã SQL này -> Dán vào Supabase Dashboard: SQL Editor -> Run
+-- KỊCH BẢN CƠ SỞ DỮ LIỆU POSTGRESQL HOÀN CHỈNH CHO THCS YÊN BÌNH (SUPABASE)
+-- Hướng dẫn: Sao chép toàn bộ -> Supabase Dashboard -> SQL Editor -> Run
 -- =========================================================================
 
 -- -------------------------------------------------------------------------
--- PHẦN 1: TẠO TẤT CẢ CÁC BẢNG DỮ LIỆU (CREATE TABLES FIRST)
+-- PHẦN 1: KÍCH HOẠT EXTENSIONS VÀ TẠO BẢNG DỮ LIỆU
 -- -------------------------------------------------------------------------
 
 -- 1. BẢNG NGƯỜI DÙNG & THÀNH VIÊN (users)
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS public.site_config (
 );
 
 -- -------------------------------------------------------------------------
--- PHẦN 2: MỞ QUYỀN TRUY CẬP ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI & ĐỒNG BỘ ĐƯỢC
+-- PHẦN 2: MỞ BẢO MẬT & PHÂN QUYỀN ĐỒNG BỘ ĐA THIẾT BỊ (Bypass RLS)
 -- -------------------------------------------------------------------------
 
 ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
@@ -151,7 +151,11 @@ ALTER TABLE public.schedules DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.announcements DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_config DISABLE ROW LEVEL SECURITY;
 
--- Bổ sung các bảng vào Realtime Publication một cách an toàn (bỏ qua nếu đã có)
+-- Cấp toàn quyền Đọc/Ghi/Xóa cho vai trò công khai (anon & authenticated)
+GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+
+-- Kích hoạt Realtime WebSockets an toàn (bỏ qua nếu bảng đã thuộc Publication)
 DO $$
 BEGIN
   BEGIN
@@ -162,7 +166,7 @@ BEGIN
 END $$;
 
 -- -------------------------------------------------------------------------
--- PHẦN 3: NẠP DỮ LIỆU MẪU BAN ĐẦU CHO THCS YÊN BÌNH
+-- PHẦN 3: KHO DỮ LIỆU BAN ĐẦU CHO TRƯỜNG THCS YÊN BÌNH
 -- -------------------------------------------------------------------------
 
 INSERT INTO public.categories (id, name, slug, icon) VALUES
@@ -171,43 +175,43 @@ INSERT INTO public.categories (id, name, slug, icon) VALUES
 (3, 'Hoạt động đoàn thể', 'hoat-dong-doan-the', 'Users'),
 (4, 'Hoạt động ngoại khóa', 'hoat-dong-ngoai-khoa', 'Sparkles'),
 (5, 'Câu lạc bộ', 'cau-lac-bo', 'Trophy')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET name = EXCLUDED.name, icon = EXCLUDED.icon;
 
 INSERT INTO public.users (id, username, password, full_name, role, email, status) VALUES
 (1, 'admin', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Thầy Hiệu Trưởng - THCS Yên Bình', 'BGH', 'bgh.thcsyenbinh@langson.edu.vn', 'ACTIVE'),
 (2, 'giaovien', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', 'GIAO_VIEN', 'hoanguyen@thcsyenbinh.edu.vn', 'ACTIVE')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET full_name = EXCLUDED.full_name, role = EXCLUDED.role;
 
 INSERT INTO public.site_config (id, school_name, governing_body, slogan, address, phone, email, logo_url, banner_bg) VALUES
 (1, 'TRƯỜNG THCS YÊN BÌNH', 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN', 'HỘI TỤ - KẾT TINH - TỎA SÁNG', 'Xã Yên Bình - Tỉnh Lạng Sơn', '(0205) 3885.6789', 'thcsyenbinh.huulung@langson.edu.vn', '/images/school-logo.jpg', '/images/school-banner.png')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET school_name = EXCLUDED.school_name, governing_body = EXCLUDED.governing_body, address = EXCLUDED.address;
 
 INSERT INTO public.articles (id, title, slug, category_id, category_name, summary, content, image, author, is_featured, views) VALUES
 (1, 'Lễ kết nạp Đảng viên mới cho cán bộ giáo viên THCS Yên Bình', 'le-ket-nap-dang-vien-moi', 1, 'Tin tức - Sự kiện', 'Vào lúc 14 giờ 00, Chi bộ trường THCS Yên Bình đã long trọng tổ chức Lễ kết nạp Đảng viên cho giáo viên ưu tú có nhiều thành tích xuất sắc.', 'Chiều ngày 04/08/2026, Chi bộ Trường THCS Yên Bình đã tiến hành Lễ kết nạp Đảng viên cho quần chúng ưu tú.', 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80', 'Ban Biên Tập THCS Yên Bình', 1, 1250)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;
 
 INSERT INTO public.documents (id, code, title, category, issue_date, signer, views, downloads) VALUES
 (1, 'TT07/2026/TT-BGDĐT', 'Thông tư 07/2026/TT-BGDĐT về Phổ cập giáo dục THCS và Xóa mù chữ năm 2026', 'Thông tư BGD&ĐT', '04/08/2026', 'Bộ trưởng BGD&ĐT', 4830, 1722),
 (2, 'TT42/2025/TT-BGDĐT', 'Quy chế công nhận trường Trung học đạt chuẩn quốc gia cấp độ 2', 'Quy chế Nhà trường', '15/12/2025', 'Thứ trưởng BGD&ĐT', 3410, 1205)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;
 
 INSERT INTO public.videos (id, title, youtube_id, thumbnail_url, views) VALUES
 (1, 'Hoạt động trải nghiệm sáng tạo STEM môn Sinh - Hóa tại THCS Yên Bình', 'dQw4w9WgXcQ', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', 920)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;
 
 INSERT INTO public.albums (id, title, date, photos_count, cover, description) VALUES
 (1, 'Lễ Khai giảng năm học mới 2026 - 2027 trường THCS Yên Bình', '05/09/2026', 24, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80', 'Những khoảnh khắc đáng nhớ trong ngày khai trường THCS Yên Bình')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;
 
 INSERT INTO public.resources (id, title, type, subject, author, date, downloads) VALUES
 (1, 'Bộ đề thi Giữa Kỳ 1 môn Toán lớp 9 năm học 2026-2027 kèm đáp án', 'Đề thi & Đáp án', 'Toán 9', 'Tổ Chuyên Môn Toán', '08/08/2026', 450)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET title = EXCLUDED.title;
 
 INSERT INTO public.schedules (id, day_title, time_slot, content, leader) VALUES
 (1, 'Thứ Hai (10/08)', '07:30', 'Chào cờ toàn trường - Phổ biến kế hoạch học tập tuần mới', 'Ban Giám Hiệu'),
 (2, 'Thứ Tư (12/08)', '14:00', 'Họp Chuyên môn Tổ Tự nhiên & Xã hội', 'Tổ Trưởng Chuyên Môn')
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET content = EXCLUDED.content;
 
 INSERT INTO public.announcements (id, content, priority, is_active) VALUES
 (1, 'Chào mừng quý thầy cô, phụ huynh và các em học sinh truy cập Cổng thông tin điện tử Trường THCS Yên Bình, xã Yên Bình, tỉnh Lạng Sơn!', 1, 1)
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE SET content = EXCLUDED.content;
