@@ -1,6 +1,6 @@
 -- =========================================================================
--- KỊCH BẢN KHOẢNG KHỞI TẠO DỮ LIỆU SUPABASE POSTGRESQL THCS YÊN BÌNH (AN TOÀN 100%)
--- Sao chép toàn bộ mã SQL dưới đây và dán vào Supabase Dashboard: SQL Editor -> Run
+-- KỊCH BẢN KHỞI TẠO CƠ SỞ DỮ LIỆU POSTGRESQL TRỌN GÓI CHO THCS YÊN BÌNH
+-- Sao chép toàn bộ mã SQL này -> Dán vào Supabase Dashboard: SQL Editor -> Run
 -- =========================================================================
 
 -- -------------------------------------------------------------------------
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS public.site_config (
 );
 
 -- -------------------------------------------------------------------------
--- PHẦN 2: TẮT RLS ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI/XEM/ĐỒNG BỘ DỮ LIỆU CÔNG KHAI
+-- PHẦN 2: MỞ QUYỀN TRUY CẬP ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI & ĐỒNG BỘ ĐƯỢC
 -- -------------------------------------------------------------------------
 
 ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
@@ -152,7 +152,7 @@ ALTER TABLE public.announcements DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_config DISABLE ROW LEVEL SECURITY;
 
 -- -------------------------------------------------------------------------
--- PHẦN 3: NẠP DỮ LIỆU MẪU BAN ĐẦU (SEED DATA - AN TOÀN TRÁNH TRÙNG KHÓA)
+-- PHẦN 3: NẠP DỮ LIỆU MẪU BAN ĐẦU CHO THCS YÊN BÌNH
 -- -------------------------------------------------------------------------
 
 INSERT INTO public.categories (id, name, slug, icon) VALUES
@@ -183,4 +183,21 @@ ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.videos (id, title, youtube_id, thumbnail_url, views) VALUES
 (1, 'Hoạt động trải nghiệm sáng tạo STEM môn Sinh - Hóa tại THCS Yên Bình', 'dQw4w9WgXcQ', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', 920)
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.albums (id, title, date, photos_count, cover, description) VALUES
+(1, 'Lễ Khai giảng năm học mới 2026 - 2027 trường THCS Yên Bình', '05/09/2026', 24, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80', 'Những khoảnh khắc đáng nhớ trong ngày khai trường THCS Yên Bình')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.resources (id, title, type, subject, author, date, downloads) VALUES
+(1, 'Bộ đề thi Giữa Kỳ 1 môn Toán lớp 9 năm học 2026-2027 kèm đáp án', 'Đề thi & Đáp án', 'Toán 9', 'Tổ Chuyên Môn Toán', '08/08/2026', 450)
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.schedules (id, day_title, time_slot, content, leader) VALUES
+(1, 'Thứ Hai (10/08)', '07:30', 'Chào cờ toàn trường - Phổ biến kế hoạch học tập tuần mới', 'Ban Giám Hiệu'),
+(2, 'Thứ Tư (12/08)', '14:00', 'Họp Chuyên môn Tổ Tự nhiên & Xã hội', 'Tổ Trưởng Chuyên Môn')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.announcements (id, content, priority, is_active) VALUES
+(1, 'Chào mừng quý thầy cô, phụ huynh và các em học sinh truy cập Cổng thông tin điện tử Trường THCS Yên Bình, xã Yên Bình, tỉnh Lạng Sơn!', 1, 1)
 ON CONFLICT (id) DO NOTHING;
