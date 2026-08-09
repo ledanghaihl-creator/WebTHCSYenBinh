@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS public.articles (
   image TEXT DEFAULT '',
   file_url TEXT DEFAULT '',
   external_link TEXT DEFAULT '',
-  author TEXT DEFAULT 'Ban Biên Tập THCS Đồng Tân',
+  author TEXT DEFAULT 'Ban Biên Tập THCS Yên Bình',
   is_featured INT DEFAULT 0,
   views INT DEFAULT 120,
   created_at TIMESTAMPTZ DEFAULT NOW()
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.documents (
   title TEXT NOT NULL,
   category TEXT DEFAULT 'Thông tư BGD&ĐT',
   issue_date TEXT NOT NULL,
-  signer TEXT DEFAULT 'THCS Đồng Tân',
+  signer TEXT DEFAULT 'THCS Yên Bình',
   file_url TEXT DEFAULT '',
   file_name TEXT DEFAULT '',
   external_link TEXT DEFAULT '',
@@ -125,78 +125,34 @@ CREATE TABLE IF NOT EXISTS public.announcements (
 -- 10. BẢNG CẤU HÌNH TRƯỜNG HỌC & BANNER (site_config)
 CREATE TABLE IF NOT EXISTS public.site_config (
   id INT PRIMARY KEY DEFAULT 1,
-  school_name TEXT DEFAULT 'TRƯỜNG THCS ĐỒNG TÂN',
-  governing_body TEXT DEFAULT 'ỦY BAN NHÂN DÂN XÃ HỮU LŨNG - TỈNH LẠNG SƠN',
+  school_name TEXT DEFAULT 'TRƯỜNG THCS YÊN BÌNH',
+  governing_body TEXT DEFAULT 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
   slogan TEXT DEFAULT 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
-  address TEXT DEFAULT 'Xã Hữu Lũng - Tỉnh Lạng Sơn',
+  address TEXT DEFAULT 'Xã Yên Bình - Tỉnh Lạng Sơn',
   phone TEXT DEFAULT '(0205) 3885.6789',
-  email TEXT DEFAULT 'thcsdongtan.huulung@langson.edu.vn',
+  email TEXT DEFAULT 'thcsyenbinh.huulung@langson.edu.vn',
   logo_url TEXT DEFAULT '/images/school-logo.jpg',
   banner_bg TEXT DEFAULT '/images/school-banner.png',
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- -------------------------------------------------------------------------
--- PHẦN 2: BẬT BẢO MẬT ROW LEVEL SECURITY (KHI BẢNG ĐÃ TỒN TẠI)
+-- PHẦN 2: TẮT RLS ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI/XEM/ĐỒNG BỘ DỮ LIỆU CÔNG KHAI
 -- -------------------------------------------------------------------------
 
-ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.articles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.documents ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.videos ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.albums ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.resources ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.schedules ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.announcements ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.site_config ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.users DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.categories DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.articles DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.documents DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.videos DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.albums DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.resources DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.schedules DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.announcements DISABLE ROW LEVEL SECURITY;
+ALTER TABLE public.site_config DISABLE ROW LEVEL SECURITY;
 
 -- -------------------------------------------------------------------------
--- PHẦN 3: XÓA VÀ TẠO CÁC POLICY PHÂN QUYỀN TRUY CẬP AN TOÀN
--- -------------------------------------------------------------------------
-
-DROP POLICY IF EXISTS "Public Select Users" ON public.users;
-DROP POLICY IF EXISTS "Public Select Categories" ON public.categories;
-DROP POLICY IF EXISTS "Public Select Articles" ON public.articles;
-DROP POLICY IF EXISTS "Public Select Documents" ON public.documents;
-DROP POLICY IF EXISTS "Public Select Videos" ON public.videos;
-DROP POLICY IF EXISTS "Public Select Albums" ON public.albums;
-DROP POLICY IF EXISTS "Public Select Resources" ON public.resources;
-DROP POLICY IF EXISTS "Public Select Schedules" ON public.schedules;
-DROP POLICY IF EXISTS "Public Select Announcements" ON public.announcements;
-DROP POLICY IF EXISTS "Public Select SiteConfig" ON public.site_config;
-
-DROP POLICY IF EXISTS "Public All Users" ON public.users;
-DROP POLICY IF EXISTS "Public All Articles" ON public.articles;
-DROP POLICY IF EXISTS "Public All Documents" ON public.documents;
-DROP POLICY IF EXISTS "Public All Videos" ON public.videos;
-DROP POLICY IF EXISTS "Public All Albums" ON public.albums;
-DROP POLICY IF EXISTS "Public All Resources" ON public.resources;
-DROP POLICY IF EXISTS "Public All Schedules" ON public.schedules;
-DROP POLICY IF EXISTS "Public All SiteConfig" ON public.site_config;
-
-DROP POLICY IF EXISTS "Public Select All" ON public.articles;
-DROP POLICY IF EXISTS "Public Select Docs" ON public.documents;
-DROP POLICY IF EXISTS "Public Select Config" ON public.site_config;
-
--- -------------------------------------------------------------------------
--- PHẦN 3: TẮT RLS HOẶC GÁN POLICY MỞ ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI/XEM ĐƯỢC DỮ LIỆU
--- -------------------------------------------------------------------------
-
--- Gán Policy mở cho phép Đọc/Thêm/Sửa/Xóa từ bất kỳ thiết bị nào (Public Anon Key)
-CREATE POLICY "Public All Users" ON public.users FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Categories" ON public.categories FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Articles" ON public.articles FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Documents" ON public.documents FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Videos" ON public.videos FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Albums" ON public.albums FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Resources" ON public.resources FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Schedules" ON public.schedules FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All Announcements" ON public.announcements FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public All SiteConfig" ON public.site_config FOR ALL USING (true) WITH CHECK (true);
-
--- -------------------------------------------------------------------------
--- PHẦN 4: NẠP DỮ LIỆU MẪU BAN ĐẦU (SEED DATA - AN TOÀN TRÁNH TRÙNG KHÓA)
+-- PHẦN 3: NẠP DỮ LIỆU MẪU BAN ĐẦU (SEED DATA - AN TOÀN TRÁNH TRÙNG KHÓA)
 -- -------------------------------------------------------------------------
 
 INSERT INTO public.categories (id, name, slug, icon) VALUES
