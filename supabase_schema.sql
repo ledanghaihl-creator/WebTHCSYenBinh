@@ -179,26 +179,21 @@ DROP POLICY IF EXISTS "Public Select All" ON public.articles;
 DROP POLICY IF EXISTS "Public Select Docs" ON public.documents;
 DROP POLICY IF EXISTS "Public Select Config" ON public.site_config;
 
--- Tạo các Policy mới
-CREATE POLICY "Public Select Users" ON public.users FOR SELECT USING (true);
-CREATE POLICY "Public Select Categories" ON public.categories FOR SELECT USING (true);
-CREATE POLICY "Public Select Articles" ON public.articles FOR SELECT USING (true);
-CREATE POLICY "Public Select Documents" ON public.documents FOR SELECT USING (true);
-CREATE POLICY "Public Select Videos" ON public.videos FOR SELECT USING (true);
-CREATE POLICY "Public Select Albums" ON public.albums FOR SELECT USING (true);
-CREATE POLICY "Public Select Resources" ON public.resources FOR SELECT USING (true);
-CREATE POLICY "Public Select Schedules" ON public.schedules FOR SELECT USING (true);
-CREATE POLICY "Public Select Announcements" ON public.announcements FOR SELECT USING (true);
-CREATE POLICY "Public Select SiteConfig" ON public.site_config FOR SELECT USING (true);
+-- -------------------------------------------------------------------------
+-- PHẦN 3: TẮT RLS HOẶC GÁN POLICY MỞ ĐỂ TẤT CẢ THIẾT BỊ ĐỀU TẢI/XEM ĐƯỢC DỮ LIỆU
+-- -------------------------------------------------------------------------
 
-CREATE POLICY "Public All Users" ON public.users FOR ALL USING (true);
-CREATE POLICY "Public All Articles" ON public.articles FOR ALL USING (true);
-CREATE POLICY "Public All Documents" ON public.documents FOR ALL USING (true);
-CREATE POLICY "Public All Videos" ON public.videos FOR ALL USING (true);
-CREATE POLICY "Public All Albums" ON public.albums FOR ALL USING (true);
-CREATE POLICY "Public All Resources" ON public.resources FOR ALL USING (true);
-CREATE POLICY "Public All Schedules" ON public.schedules FOR ALL USING (true);
-CREATE POLICY "Public All SiteConfig" ON public.site_config FOR ALL USING (true);
+-- Gán Policy mở cho phép Đọc/Thêm/Sửa/Xóa từ bất kỳ thiết bị nào (Public Anon Key)
+CREATE POLICY "Public All Users" ON public.users FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Categories" ON public.categories FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Articles" ON public.articles FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Documents" ON public.documents FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Videos" ON public.videos FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Albums" ON public.albums FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Resources" ON public.resources FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Schedules" ON public.schedules FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All Announcements" ON public.announcements FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Public All SiteConfig" ON public.site_config FOR ALL USING (true) WITH CHECK (true);
 
 -- -------------------------------------------------------------------------
 -- PHẦN 4: NẠP DỮ LIỆU MẪU BAN ĐẦU (SEED DATA - AN TOÀN TRÁNH TRÙNG KHÓA)

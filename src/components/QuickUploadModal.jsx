@@ -86,7 +86,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
 
       if (supabase) {
         try {
-          await supabase.from('documents').insert([{
+          const { error: insErr } = await supabase.from('documents').insert([{
             code: newItem.code,
             title: newItem.title,
             category: newItem.category,
@@ -96,6 +96,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
             file_name: newItem.fileName,
             external_link: newItem.externalLink
           }]);
+          if (insErr) console.error('Lỗi Supabase insert document:', insErr);
         } catch (err) {}
       }
 
@@ -115,7 +116,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
 
       if (supabase) {
         try {
-          await supabase.from('resources').insert([{
+          const { error: insErr } = await supabase.from('resources').insert([{
             title: newItem.title,
             type: newItem.type,
             subject: newItem.subject,
@@ -125,6 +126,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
             file_name: newItem.fileName,
             external_link: newItem.externalLink
           }]);
+          if (insErr) console.error('Lỗi Supabase insert resource:', insErr);
         } catch (err) {}
       }
 
@@ -150,7 +152,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
 
       if (supabase) {
         try {
-          await supabase.from('articles').insert([{
+          const { error: insErr } = await supabase.from('articles').insert([{
             title: newItem.title,
             slug: newItem.slug,
             category_id: newItem.categoryId,
@@ -162,6 +164,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
             external_link: newItem.externalLink,
             author: newItem.author
           }]);
+          if (insErr) console.error('Lỗi Supabase insert article:', insErr);
         } catch (err) {}
       }
 
@@ -179,7 +182,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
 
       if (supabase) {
         try {
-          await supabase.from('albums').insert([{
+          const { error: insErr } = await supabase.from('albums').insert([{
             title: newItem.title,
             date: newItem.date,
             cover: newItem.cover,
@@ -187,6 +190,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
             file_url: newItem.fileUrl,
             external_link: newItem.externalLink
           }]);
+          if (insErr) console.error('Lỗi Supabase insert album:', insErr);
         } catch (err) {}
       }
 
@@ -206,13 +210,14 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
 
       if (supabase) {
         try {
-          await supabase.from('videos').insert([{
+          const { error: insErr } = await supabase.from('videos').insert([{
             title: newItem.title,
             youtube_id: newItem.youtubeId,
             video_url: newItem.videoUrl,
             thumbnail_url: newItem.thumbnailUrl,
             external_link: newItem.externalLink
           }]);
+          if (insErr) console.error('Lỗi Supabase insert video:', insErr);
         } catch (err) {}
       }
     }
@@ -222,7 +227,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
     }
 
     setUploading(false);
-    setMessage('✅ Đã lưu lên Supabase Cloud và hiển thị công khai trên tất cả các thiết bị!');
+    setMessage('✅ Đã tải lên Cloud và sẵn sàng đồng bộ tới tất cả các thiết bị!');
     setTimeout(() => {
       onClose();
     }, 800);
