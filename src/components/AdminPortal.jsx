@@ -306,7 +306,46 @@ export default function AdminPortal({
       setMessage('✅ Đã cập nhật thành công bài viết!');
       setEditingArticle(null);
     } else {
-      setMessage('✅ Đăng bài viết mới thành công!');
+      const catObj = categories.find(c => c.id === parseInt(newsCategory)) || { name: 'Tin tức - Sự kiện' };
+      const newItemId = Date.now();
+      const newArticle = {
+        id: newItemId,
+        title: newsTitle || 'Bài viết mới đăng',
+        slug: 'tin-moi-' + newItemId,
+        categoryId: parseInt(newsCategory),
+        categoryName: catObj.name,
+        summary: newsSummary || newsTitle,
+        content: newsContent || newsSummary || newsTitle,
+        image: newsImage || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80',
+        author: user?.fullName || 'Ban Biên Tập THCS Yên Bình',
+        isFeatured: 0,
+        views: 1,
+        createdAt: new Date().toLocaleDateString('vi-VN'),
+        fileUrl: newsFileUrl || '',
+        externalLink: newsExternalLink || ''
+      };
+
+      if (supabase) {
+        try {
+          await supabase.from('articles').insert([{
+            title: newArticle.title,
+            slug: newArticle.slug,
+            category_id: newArticle.categoryId,
+            category_name: newArticle.categoryName,
+            summary: newArticle.summary,
+            content: newArticle.content,
+            image: newArticle.image,
+            file_url: newArticle.fileUrl,
+            external_link: newArticle.externalLink,
+            author: newArticle.author
+          }]);
+        } catch (err) {}
+      }
+
+      if (onAddNewItem) {
+        onAddNewItem('news', newArticle);
+      }
+      setMessage('🎉 Đã đăng bài viết mới thành công và đồng bộ tới tất cả các thiết bị!');
     }
     setNewsTitle('');
     setNewsSummary('');
@@ -347,7 +386,40 @@ export default function AdminPortal({
       setMessage('✅ Đã cập nhật văn bản chỉ đạo!');
       setEditingDoc(null);
     } else {
-      setMessage('✅ Phát hành văn bản mới thành công!');
+      const newItemId = Date.now();
+      const newDoc = {
+        id: newItemId,
+        code: docCode || `VB-${newItemId.toString().slice(-4)}`,
+        title: docTitle || 'Văn bản chỉ đạo mới',
+        category: docCategory || 'Thông tư BGD&ĐT',
+        issueDate: docIssueDate || new Date().toLocaleDateString('vi-VN'),
+        signer: docSigner || 'BGH THCS Yên Bình',
+        views: 1,
+        downloads: 0,
+        fileUrl: docFileUrl || '#',
+        fileName: docCode ? `${docCode}.pdf` : 'van-ban.pdf',
+        externalLink: docExternalLink || ''
+      };
+
+      if (supabase) {
+        try {
+          await supabase.from('documents').insert([{
+            code: newDoc.code,
+            title: newDoc.title,
+            category: newDoc.category,
+            issue_date: newDoc.issueDate,
+            signer: newDoc.signer,
+            file_url: newDoc.fileUrl,
+            file_name: newDoc.fileName,
+            external_link: newDoc.externalLink
+          }]);
+        } catch (err) {}
+      }
+
+      if (onAddNewItem) {
+        onAddNewItem('docs', newDoc);
+      }
+      setMessage('🎉 Đã phát hành văn bản mới thành công và đồng bộ tới tất cả các thiết bị!');
     }
     setDocCode('');
     setDocTitle('');

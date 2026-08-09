@@ -332,8 +332,30 @@ export default function App() {
 
   useEffect(() => {
     fetchCloudData();
-    const interval = setInterval(fetchCloudData, 5000);
-    return () => clearInterval(interval);
+
+    let channel;
+    if (supabase) {
+      channel = supabase
+        .channel('public-db-sync')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public' },
+          (payload) => {
+            console.log('⚡ Realtime Cloud Sync Event Received:', payload);
+            fetchCloudData();
+          }
+        )
+        .subscribe();
+    }
+
+    const interval = setInterval(fetchCloudData, 3000);
+
+    return () => {
+      if (channel && supabase) {
+        supabase.removeChannel(channel);
+      }
+      clearInterval(interval);
+    };
   }, []);
 
   const handleSaveSiteConfig = async (newConfig) => {
@@ -574,6 +596,7 @@ export default function App() {
             onDeleteNews={handleDeleteNews}
             onUpdateDocument={handleUpdateDocument}
             onDeleteDocument={handleDeleteDocument}
+            onAddNewItem={handleAddNewItem}
             onRefreshData={fetchCloudData}
           />
         </div>
