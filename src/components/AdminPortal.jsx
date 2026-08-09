@@ -42,6 +42,21 @@ export default function AdminPortal({
     bannerBg: siteConfig.bannerBg || '/images/school-banner.png'
   });
 
+  useEffect(() => {
+    if (siteConfig) {
+      setConfigState({
+        schoolName: siteConfig.schoolName || 'TRƯỜNG THCS YÊN BÌNH',
+        governingBody: siteConfig.governingBody || 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
+        slogan: siteConfig.slogan || 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
+        address: siteConfig.address || 'Xã Yên Bình - Tỉnh Lạng Sơn',
+        phone: siteConfig.phone || '(0205) 3885.6789',
+        email: siteConfig.email || 'thcsyenbinh.huulung@langson.edu.vn',
+        logoUrl: siteConfig.logoUrl || '/images/school-logo.jpg',
+        bannerBg: siteConfig.bannerBg || '/images/school-banner.png'
+      });
+    }
+  }, [siteConfig]);
+
   // User Management State
   const [userList, setUserList] = useState(() => {
     const saved = localStorage.getItem('portal_users');
@@ -625,13 +640,47 @@ export default function AdminPortal({
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Tải Logo mới từ máy tính:</label>
-                <input type="file" onChange={(e) => handleFileUpload(e.target.files[0], (url) => setConfigState({ ...configState, logoUrl: url }))} style={{ fontSize: '12px', marginBottom: '4px' }} />
-                <input type="text" value={configState.logoUrl} onChange={(e) => setConfigState({ ...configState, logoUrl: e.target.value })} style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }} placeholder="Hoặc dán Link URL Logo..." />
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleFileUpload(e.target.files[0], (url) => {
+                        setConfigState(prev => ({ ...prev, logoUrl: url }));
+                      });
+                    }
+                  }} 
+                  style={{ fontSize: '12px', marginBottom: '4px', width: '100%' }} 
+                />
+                <input type="text" value={configState.logoUrl} onChange={(e) => setConfigState(prev => ({ ...prev, logoUrl: e.target.value }))} style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }} placeholder="Hoặc dán Link URL Logo..." />
+                {configState.logoUrl && (
+                  <div style={{ marginTop: '6px', padding: '6px', background: '#f8fafc', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                    <span style={{ fontSize: '11px', color: '#475569', fontWeight: '600' }}>Xem trước Logo:</span>
+                    <img src={configState.logoUrl} alt="Logo Preview" style={{ height: '42px', display: 'block', marginTop: '4px', objectFit: 'contain' }} />
+                  </div>
+                )}
               </div>
               <div>
                 <label style={{ display: 'block', fontSize: '12px', fontWeight: '700', marginBottom: '4px' }}>Tải ảnh nền Banner Header:</label>
-                <input type="file" onChange={(e) => handleFileUpload(e.target.files[0], (url) => setConfigState({ ...configState, bannerBg: url }))} style={{ fontSize: '12px', marginBottom: '4px' }} />
-                <input type="text" value={configState.bannerBg} onChange={(e) => setConfigState({ ...configState, bannerBg: e.target.value })} style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }} placeholder="Hoặc dán Link URL Ảnh Banner..." />
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      handleFileUpload(e.target.files[0], (url) => {
+                        setConfigState(prev => ({ ...prev, bannerBg: url }));
+                      });
+                    }
+                  }} 
+                  style={{ fontSize: '12px', marginBottom: '4px', width: '100%' }} 
+                />
+                <input type="text" value={configState.bannerBg} onChange={(e) => setConfigState(prev => ({ ...prev, bannerBg: e.target.value }))} style={{ width: '100%', padding: '6px', border: '1px solid #cbd5e1', borderRadius: '4px', fontSize: '12px' }} placeholder="Hoặc dán Link URL Ảnh Banner..." />
+                {configState.bannerBg && (
+                  <div style={{ marginTop: '6px', padding: '6px', background: '#f8fafc', borderRadius: '4px', border: '1px solid #e2e8f0' }}>
+                    <span style={{ fontSize: '11px', color: '#475569', fontWeight: '600' }}>Xem trước Banner:</span>
+                    <img src={configState.bannerBg} alt="Banner Preview" style={{ height: '42px', width: '100%', objectFit: 'cover', display: 'block', marginTop: '4px', borderRadius: '4px' }} />
+                  </div>
+                )}
               </div>
             </div>
           </div>

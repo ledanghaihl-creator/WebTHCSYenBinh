@@ -134,7 +134,15 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Global Dynamic Site State
-  const [siteConfig, setSiteConfig] = useState(INITIAL_SITE_CONFIG);
+  const [siteConfig, setSiteConfig] = useState(() => {
+    try {
+      const saved = localStorage.getItem('site_config');
+      return saved ? JSON.parse(saved) : INITIAL_SITE_CONFIG;
+    } catch (e) {
+      return INITIAL_SITE_CONFIG;
+    }
+  });
+
   const [newsList, setNewsList] = useState(INITIAL_NEWS_LIST);
   const [featuredNews, setFeaturedNews] = useState(INITIAL_FEATURED_NEWS);
   const [documents, setDocuments] = useState(INITIAL_DOCUMENTS);
@@ -276,7 +284,7 @@ export default function App() {
       }
 
       if (cfgData) {
-        setSiteConfig({
+        const mergedConfig = {
           schoolName: cfgData.school_name || INITIAL_SITE_CONFIG.schoolName,
           governingBody: cfgData.governing_body || INITIAL_SITE_CONFIG.governingBody,
           slogan: cfgData.slogan || INITIAL_SITE_CONFIG.slogan,
@@ -285,7 +293,11 @@ export default function App() {
           email: cfgData.email || INITIAL_SITE_CONFIG.email,
           logoUrl: cfgData.logo_url || INITIAL_SITE_CONFIG.logoUrl,
           bannerBg: cfgData.banner_bg || INITIAL_SITE_CONFIG.bannerBg
-        });
+        };
+        setSiteConfig(mergedConfig);
+        try {
+          localStorage.setItem('site_config', JSON.stringify(mergedConfig));
+        } catch (e) {}
       }
 
       if (usrData && usrData.length > 0) {
@@ -307,15 +319,19 @@ export default function App() {
 
   useEffect(() => {
     fetchCloudData();
-    const interval = setInterval(fetchCloudData, 10000);
+    const interval = setInterval(fetchCloudData, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const handleSaveSiteConfig = async (newConfig) => {
     setSiteConfig(newConfig);
+    try {
+      localStorage.setItem('site_config', JSON.stringify(newConfig));
+    } catch (e) {}
+
     if (supabase) {
       try {
-        await supabase.from('site_config').upsert({
+        const { error } = await supabase.from('site_config').upsert({
           id: 1,
           school_name: newConfig.schoolName,
           governing_body: newConfig.governingBody,
@@ -327,8 +343,12 @@ export default function App() {
           banner_bg: newConfig.bannerBg,
           updated_at: new Date().toISOString()
         });
-      } catch (err) {}
+        if (error) console.error('Lỗi lưu site_config lên Supabase:', error);
+      } catch (err) {
+        console.error('Exception site_config:', err);
+      }
     }
+    fetchCloudData();
   };
 
   const handleUpdateNews = async (updatedArticle) => {
