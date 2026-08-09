@@ -11,6 +11,8 @@ export default function AdminPortal({
   onSaveSiteConfig,
   newsList = [],
   documents = [],
+  albums = [],
+  videos = [],
   resources = [],
   pendingUsers = [],
   onApproveUser,
@@ -19,8 +21,11 @@ export default function AdminPortal({
   onDeleteNews,
   onUpdateDocument,
   onDeleteDocument,
+  onDeleteAlbum,
+  onDeleteVideo,
   onUpdateResource,
   onDeleteResource,
+  onAddNewItem,
   onRefreshData 
 }) {
   const [username, setUsername] = useState('admin');
@@ -526,19 +531,37 @@ export default function AdminPortal({
           onClick={() => setAdminTab('config')} 
           style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'config' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'config' ? '700' : '500', color: adminTab === 'config' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
         >
-          <Settings size={15} /> ⚙️ Sửa Thông Tin & Banner
+          <Settings size={15} /> ⚙️ Sửa Banner & Logo
         </button>
         <button 
           onClick={() => setAdminTab('manageNews')} 
           style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'manageNews' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'manageNews' ? '700' : '500', color: adminTab === 'manageNews' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
         >
-          <Edit size={15} /> 📰 Bài Viết ({newsList.length})
+          <Edit size={15} /> 📰 Quản Lý Bài Viết ({newsList.length})
         </button>
         <button 
           onClick={() => setAdminTab('manageDocs')} 
           style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'manageDocs' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'manageDocs' ? '700' : '500', color: adminTab === 'manageDocs' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
         >
           <FilePlus size={15} /> 📄 Văn Bản ({documents.length})
+        </button>
+        <button 
+          onClick={() => setAdminTab('manageAlbums')} 
+          style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'manageAlbums' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'manageAlbums' ? '700' : '500', color: adminTab === 'manageAlbums' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+        >
+          📷 Quản Lý Album Ảnh ({albums.length})
+        </button>
+        <button 
+          onClick={() => setAdminTab('manageVideos')} 
+          style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'manageVideos' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'manageVideos' ? '700' : '500', color: adminTab === 'manageVideos' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+        >
+          🎥 Video ({videos.length})
+        </button>
+        <button 
+          onClick={() => setAdminTab('manageResources')} 
+          style={{ padding: '8px 14px', border: 'none', borderBottom: adminTab === 'manageResources' ? '3px solid #0056a6' : 'none', background: 'transparent', fontWeight: adminTab === 'manageResources' ? '700' : '500', color: adminTab === 'manageResources' ? '#0056a6' : '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }}
+        >
+          📚 Đề Thi & Giáo Án ({resources.length})
         </button>
         <button 
           onClick={() => { setEditingArticle(null); setAdminTab('news'); }} 
@@ -867,6 +890,80 @@ export default function AdminPortal({
                     <Trash2 size={14} /> Xóa
                   </button>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab Manage Albums: Quản lý & Xóa Album Ảnh */}
+      {adminTab === 'manageAlbums' && (
+        <div>
+          <h3 style={{ fontSize: '16px', color: '#003a73', marginBottom: '15px', fontWeight: '700' }}>
+            📷 QUẢN LÝ THƯ VIỆN ALBUMS ẢNH HOẠT ĐỘNG ({albums.length} ALBUMS)
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px' }}>
+            {albums.map(alb => (
+              <div key={alb.id} style={{ border: '1px solid #cbd5e1', borderRadius: '6px', overflow: 'hidden', background: '#f8fafc', padding: '12px' }}>
+                <img src={alb.cover || "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&q=80"} alt="" style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
+                <h4 style={{ fontSize: '13.5px', color: '#003a73', margin: '0 0 4px 0', fontWeight: '700', height: '36px', overflow: 'hidden' }}>{alb.title}</h4>
+                <span style={{ fontSize: '11.5px', color: '#64748b', display: 'block', marginBottom: '8px' }}>📅 {alb.date} | 📷 {alb.photosCount || 10} Ảnh</span>
+                <button 
+                  onClick={() => onDeleteAlbum && onDeleteAlbum(alb.id)}
+                  style={{ width: '100%', background: '#ef4444', color: 'white', border: 'none', padding: '6px', borderRadius: '4px', cursor: 'pointer', fontWeight: '700', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                >
+                  <Trash2 size={14} /> Xóa Album Ảnh
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab Manage Videos: Quản lý & Xóa Video */}
+      {adminTab === 'manageVideos' && (
+        <div>
+          <h3 style={{ fontSize: '16px', color: '#003a73', marginBottom: '15px', fontWeight: '700' }}>
+            🎥 QUẢN LÝ THƯ VIỆN VIDEO TRƯỜNG HỌC ({videos.length} VIDEOS)
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px' }}>
+            {videos.map(vid => (
+              <div key={vid.id} style={{ border: '1px solid #cbd5e1', borderRadius: '6px', overflow: 'hidden', background: '#f8fafc', padding: '12px' }}>
+                <img src={vid.thumbnailUrl || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80"} alt="" style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '4px', marginBottom: '8px' }} />
+                <h4 style={{ fontSize: '13.5px', color: '#003a73', margin: '0 0 4px 0', fontWeight: '700', height: '36px', overflow: 'hidden' }}>{vid.title}</h4>
+                <span style={{ fontSize: '11.5px', color: '#64748b', display: 'block', marginBottom: '8px' }}>👁️ {vid.views || 100} lượt xem</span>
+                <button 
+                  onClick={() => onDeleteVideo && onDeleteVideo(vid.id)}
+                  style={{ width: '100%', background: '#ef4444', color: 'white', border: 'none', padding: '6px', borderRadius: '4px', cursor: 'pointer', fontWeight: '700', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}
+                >
+                  <Trash2 size={14} /> Xóa Video
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab Manage Resources: Quản lý & Xóa Đề Thi / Bài Giảng */}
+      {adminTab === 'manageResources' && (
+        <div>
+          <h3 style={{ fontSize: '16px', color: '#003a73', marginBottom: '15px', fontWeight: '700' }}>
+            📚 QUẢN LÝ KHO ĐỀ THI & TÀI NGUYÊN HỌC TẬP ({resources.length} TÀI NGUYÊN)
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {resources.map(res => (
+              <div key={res.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc' }}>
+                <div>
+                  <span style={{ fontSize: '11px', background: '#16a34a', color: 'white', padding: '2px 6px', borderRadius: '3px', fontWeight: '700', marginRight: '6px' }}>{res.type}</span>
+                  <h4 style={{ fontSize: '14px', color: '#003a73', margin: '4px 0 0 0', fontWeight: '700' }}>{res.title}</h4>
+                  <span style={{ fontSize: '12px', color: '#64748b' }}> môn {res.subject} | ✍️ {res.author} | ⬇️ {res.downloads || 0} lượt tải</span>
+                </div>
+                <button 
+                  onClick={() => onDeleteResource && onDeleteResource(res.id)}
+                  style={{ background: '#ef4444', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontWeight: '700', fontSize: '12.5px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                >
+                  <Trash2 size={14} /> Xóa Tài Nguyên
+                </button>
               </div>
             ))}
           </div>

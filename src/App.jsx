@@ -449,6 +449,33 @@ export default function App() {
     }
   };
 
+  const handleDeleteAlbum = async (albumId) => {
+    setAlbums(prev => prev.filter(a => a.id !== albumId));
+    if (supabase) {
+      try {
+        await supabase.from('albums').delete().eq('id', albumId);
+      } catch (err) {}
+    }
+  };
+
+  const handleDeleteVideo = async (videoId) => {
+    setVideos(prev => prev.filter(v => v.id !== videoId));
+    if (supabase) {
+      try {
+        await supabase.from('videos').delete().eq('id', videoId);
+      } catch (err) {}
+    }
+  };
+
+  const handleDeleteResource = async (resId) => {
+    setResources(prev => prev.filter(r => r.id !== resId));
+    if (supabase) {
+      try {
+        await supabase.from('resources').delete().eq('id', resId);
+      } catch (err) {}
+    }
+  };
+
   const handleRegisterSuccess = (newPendingUser) => {
     setPendingUsers(prev => [newPendingUser, ...prev]);
     fetchCloudData();
@@ -588,6 +615,8 @@ export default function App() {
             onSaveSiteConfig={handleSaveSiteConfig}
             newsList={newsList}
             documents={documents}
+            albums={albums}
+            videos={videos}
             resources={resources}
             pendingUsers={pendingUsers}
             onApproveUser={handleApproveUser}
@@ -596,6 +625,9 @@ export default function App() {
             onDeleteNews={handleDeleteNews}
             onUpdateDocument={handleUpdateDocument}
             onDeleteDocument={handleDeleteDocument}
+            onDeleteAlbum={handleDeleteAlbum}
+            onDeleteVideo={handleDeleteVideo}
+            onDeleteResource={handleDeleteResource}
             onAddNewItem={handleAddNewItem}
             onRefreshData={fetchCloudData}
           />
