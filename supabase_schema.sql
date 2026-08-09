@@ -151,6 +151,16 @@ ALTER TABLE public.schedules DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.announcements DISABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_config DISABLE ROW LEVEL SECURITY;
 
+-- Bổ sung các bảng vào Realtime Publication một cách an toàn (bỏ qua nếu đã có)
+DO $$
+BEGIN
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.site_config, public.articles, public.documents, public.videos, public.albums, public.resources, public.announcements, public.schedules, public.users;
+  EXCEPTION WHEN OTHERS THEN
+    NULL;
+  END;
+END $$;
+
 -- -------------------------------------------------------------------------
 -- PHẦN 3: NẠP DỮ LIỆU MẪU BAN ĐẦU CHO THCS YÊN BÌNH
 -- -------------------------------------------------------------------------
