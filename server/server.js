@@ -15,6 +15,7 @@ import mediaRoutes from './routes/media.js';
 import announcementsRoutes from './routes/announcements.js';
 import uploadRoutes from './routes/upload.js';
 import configRoutes from './routes/config.js';
+import dbRoutes from './routes/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,6 +53,7 @@ app.use('/api/media', mediaRoutes);
 app.use('/api/announcements', announcementsRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/db', dbRoutes);
 
 // Healthcheck Route
 app.get('/api/health', (req, res) => {

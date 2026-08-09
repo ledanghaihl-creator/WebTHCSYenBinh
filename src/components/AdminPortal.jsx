@@ -330,22 +330,30 @@ export default function AdminPortal({
         externalLink: newsExternalLink || ''
       };
 
+      const dbPayload = {
+        title: newArticle.title,
+        slug: newArticle.slug,
+        category_id: newArticle.categoryId,
+        category_name: newArticle.categoryName,
+        summary: newArticle.summary,
+        content: newArticle.content,
+        image: newArticle.image,
+        file_url: newArticle.fileUrl,
+        external_link: newArticle.externalLink,
+        author: newArticle.author
+      };
       if (supabase) {
         try {
-          await supabase.from('articles').insert([{
-            title: newArticle.title,
-            slug: newArticle.slug,
-            category_id: newArticle.categoryId,
-            category_name: newArticle.categoryName,
-            summary: newArticle.summary,
-            content: newArticle.content,
-            image: newArticle.image,
-            file_url: newArticle.fileUrl,
-            external_link: newArticle.externalLink,
-            author: newArticle.author
-          }]);
+          await supabase.from('articles').insert([dbPayload]);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'articles', item: dbPayload })
+        });
+      } catch (err) {}
 
       if (onAddNewItem) {
         onAddNewItem('news', newArticle);
@@ -406,20 +414,30 @@ export default function AdminPortal({
         externalLink: docExternalLink || ''
       };
 
+      const dbPayload = {
+        code: newDoc.code,
+        title: newDoc.title,
+        category: newDoc.category,
+        issue_date: newDoc.issueDate,
+        signer: newDoc.signer,
+        file_url: newDoc.fileUrl,
+        file_name: newDoc.fileName,
+        external_link: newDoc.externalLink
+      };
+
       if (supabase) {
         try {
-          await supabase.from('documents').insert([{
-            code: newDoc.code,
-            title: newDoc.title,
-            category: newDoc.category,
-            issue_date: newDoc.issueDate,
-            signer: newDoc.signer,
-            file_url: newDoc.fileUrl,
-            file_name: newDoc.fileName,
-            external_link: newDoc.externalLink
-          }]);
+          await supabase.from('documents').insert([dbPayload]);
         } catch (err) {}
       }
+
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'documents', item: dbPayload })
+        });
+      } catch (err) {}
 
       if (onAddNewItem) {
         onAddNewItem('docs', newDoc);

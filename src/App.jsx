@@ -196,8 +196,36 @@ export default function App() {
         supabase.from('users').select('*').order('id', { ascending: false })
       ]);
 
-      if (artData && artData.length > 0) {
-        const mappedArticles = artData.map(a => ({
+      let finalArt = artData;
+      let finalDoc = docData;
+      let finalRes = resData;
+      let finalVid = vidData;
+      let finalAlb = albData;
+      let finalSch = schData;
+      let finalCfg = cfgData;
+      let finalUsr = usrData;
+
+      if (!finalArt?.length || !finalAlb?.length || !finalDoc?.length || !finalCfg) {
+        try {
+          const apiRes = await fetch('/api/db/all');
+          if (apiRes.ok) {
+            const resJson = await apiRes.json();
+            if (resJson.success && resJson.data) {
+              if (!finalArt?.length && resJson.data.articles?.length) finalArt = resJson.data.articles;
+              if (!finalDoc?.length && resJson.data.documents?.length) finalDoc = resJson.data.documents;
+              if (!finalRes?.length && resJson.data.resources?.length) finalRes = resJson.data.resources;
+              if (!finalVid?.length && resJson.data.videos?.length) finalVid = resJson.data.videos;
+              if (!finalAlb?.length && resJson.data.albums?.length) finalAlb = resJson.data.albums;
+              if (!finalSch?.length && resJson.data.schedules?.length) finalSch = resJson.data.schedules;
+              if (!finalCfg && resJson.data.siteConfig) finalCfg = resJson.data.siteConfig;
+              if (!finalUsr?.length && resJson.data.users?.length) finalUsr = resJson.data.users;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (finalArt && finalArt.length > 0) {
+        const mappedArticles = finalArt.map(a => ({
           id: a.id,
           title: a.title,
           slug: a.slug,
@@ -217,8 +245,8 @@ export default function App() {
         setFeaturedNews(mappedArticles.find(a => a.isFeatured === 1) || mappedArticles[0]);
       }
 
-      if (docData && docData.length > 0) {
-        setDocuments(docData.map(d => ({
+      if (finalDoc && finalDoc.length > 0) {
+        setDocuments(finalDoc.map(d => ({
           id: d.id,
           code: d.code,
           title: d.title,
@@ -233,8 +261,8 @@ export default function App() {
         })));
       }
 
-      if (resData && resData.length > 0) {
-        setResources(resData.map(r => ({
+      if (finalRes && finalRes.length > 0) {
+        setResources(finalRes.map(r => ({
           id: r.id,
           title: r.title,
           type: r.type,
@@ -248,8 +276,8 @@ export default function App() {
         })));
       }
 
-      if (vidData && vidData.length > 0) {
-        setVideos(vidData.map(v => ({
+      if (finalVid && finalVid.length > 0) {
+        setVideos(finalVid.map(v => ({
           id: v.id,
           title: v.title,
           youtubeId: v.youtube_id,
@@ -260,8 +288,8 @@ export default function App() {
         })));
       }
 
-      if (albData && albData.length > 0) {
-        setAlbums(albData.map(a => ({
+      if (finalAlb && finalAlb.length > 0) {
+        setAlbums(finalAlb.map(a => ({
           id: a.id,
           title: a.title,
           date: a.date,
@@ -273,8 +301,8 @@ export default function App() {
         })));
       }
 
-      if (schData && schData.length > 0) {
-        setSchedules(schData.map(s => ({
+      if (finalSch && finalSch.length > 0) {
+        setSchedules(finalSch.map(s => ({
           id: s.id,
           day: s.day_title,
           time: s.time_slot,
@@ -283,29 +311,16 @@ export default function App() {
         })));
       }
 
-      let finalCfgData = cfgData;
-      if (!finalCfgData) {
-        try {
-          const res = await fetch('/api/config');
-          if (res.ok) {
-            const apiRes = await res.json();
-            if (apiRes.success && apiRes.data) {
-              finalCfgData = apiRes.data;
-            }
-          }
-        } catch (e) {}
-      }
-
-      if (finalCfgData) {
+      if (finalCfg) {
         const mergedConfig = {
-          schoolName: finalCfgData.school_name || finalCfgData.schoolName || INITIAL_SITE_CONFIG.schoolName,
-          governingBody: finalCfgData.governing_body || finalCfgData.governingBody || INITIAL_SITE_CONFIG.governingBody,
-          slogan: finalCfgData.slogan || finalCfgData.slogan || INITIAL_SITE_CONFIG.slogan,
-          address: finalCfgData.address || finalCfgData.address || INITIAL_SITE_CONFIG.address,
-          phone: finalCfgData.phone || finalCfgData.phone || INITIAL_SITE_CONFIG.phone,
-          email: finalCfgData.email || finalCfgData.email || INITIAL_SITE_CONFIG.email,
-          logoUrl: finalCfgData.logo_url || finalCfgData.logoUrl || INITIAL_SITE_CONFIG.logoUrl,
-          bannerBg: finalCfgData.banner_bg || finalCfgData.bannerBg || INITIAL_SITE_CONFIG.bannerBg
+          schoolName: finalCfg.school_name || finalCfg.schoolName || INITIAL_SITE_CONFIG.schoolName,
+          governingBody: finalCfg.governing_body || finalCfg.governingBody || INITIAL_SITE_CONFIG.governingBody,
+          slogan: finalCfg.slogan || finalCfg.slogan || INITIAL_SITE_CONFIG.slogan,
+          address: finalCfg.address || finalCfg.address || INITIAL_SITE_CONFIG.address,
+          phone: finalCfg.phone || finalCfg.phone || INITIAL_SITE_CONFIG.phone,
+          email: finalCfg.email || finalCfg.email || INITIAL_SITE_CONFIG.email,
+          logoUrl: finalCfg.logo_url || finalCfg.logoUrl || INITIAL_SITE_CONFIG.logoUrl,
+          bannerBg: finalCfg.banner_bg || finalCfg.bannerBg || INITIAL_SITE_CONFIG.bannerBg
         };
         setSiteConfig(mergedConfig);
         try {
@@ -313,8 +328,8 @@ export default function App() {
         } catch (e) {}
       }
 
-      if (usrData && usrData.length > 0) {
-        const pendings = usrData.filter(u => u.status === 'PENDING').map(u => ({
+      if (finalUsr && finalUsr.length > 0) {
+        const pendings = finalUsr.filter(u => u.status === 'PENDING').map(u => ({
           id: u.id,
           username: u.username,
           fullName: u.full_name,

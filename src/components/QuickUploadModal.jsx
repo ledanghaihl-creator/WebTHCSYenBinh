@@ -84,21 +84,29 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         externalLink: externalLink || ''
       };
 
+      const dbPayload = {
+        code: newItem.code,
+        title: newItem.title,
+        category: newItem.category,
+        issue_date: newItem.issueDate,
+        signer: newItem.signer,
+        file_url: newItem.fileUrl,
+        file_name: newItem.fileName,
+        external_link: newItem.externalLink
+      };
       if (supabase) {
         try {
-          const { error: insErr } = await supabase.from('documents').insert([{
-            code: newItem.code,
-            title: newItem.title,
-            category: newItem.category,
-            issue_date: newItem.issueDate,
-            signer: newItem.signer,
-            file_url: newItem.fileUrl,
-            file_name: newItem.fileName,
-            external_link: newItem.externalLink
-          }]);
+          const { error: insErr } = await supabase.from('documents').insert([dbPayload]);
           if (insErr) console.error('Lỗi Supabase insert document:', insErr);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'documents', item: dbPayload })
+        });
+      } catch (err) {}
 
     } else if (activeType === 'resources') {
       newItem = {
@@ -114,21 +122,29 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         externalLink: externalLink || ''
       };
 
+      const dbPayload = {
+        title: newItem.title,
+        type: newItem.type,
+        subject: newItem.subject,
+        author: newItem.author,
+        date: newItem.date,
+        file_url: newItem.fileUrl,
+        file_name: newItem.fileName,
+        external_link: newItem.externalLink
+      };
       if (supabase) {
         try {
-          const { error: insErr } = await supabase.from('resources').insert([{
-            title: newItem.title,
-            type: newItem.type,
-            subject: newItem.subject,
-            author: newItem.author,
-            date: newItem.date,
-            file_url: newItem.fileUrl,
-            file_name: newItem.fileName,
-            external_link: newItem.externalLink
-          }]);
+          const { error: insErr } = await supabase.from('resources').insert([dbPayload]);
           if (insErr) console.error('Lỗi Supabase insert resource:', insErr);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'resources', item: dbPayload })
+        });
+      } catch (err) {}
 
     } else if (activeType === 'news') {
       const catObj = categories.find(c => c.id === parseInt(category)) || { name: 'Tin tức - Sự kiện' };
@@ -150,23 +166,31 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         externalLink: externalLink || ''
       };
 
+      const dbPayload = {
+        title: newItem.title,
+        slug: newItem.slug,
+        category_id: newItem.categoryId,
+        category_name: newItem.categoryName,
+        summary: newItem.summary,
+        content: newItem.content,
+        image: newItem.image,
+        file_url: newItem.fileUrl,
+        external_link: newItem.externalLink,
+        author: newItem.author
+      };
       if (supabase) {
         try {
-          const { error: insErr } = await supabase.from('articles').insert([{
-            title: newItem.title,
-            slug: newItem.slug,
-            category_id: newItem.categoryId,
-            category_name: newItem.categoryName,
-            summary: newItem.summary,
-            content: newItem.content,
-            image: newItem.image,
-            file_url: newItem.fileUrl,
-            external_link: newItem.externalLink,
-            author: newItem.author
-          }]);
+          const { error: insErr } = await supabase.from('articles').insert([dbPayload]);
           if (insErr) console.error('Lỗi Supabase insert article:', insErr);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'articles', item: dbPayload })
+        });
+      } catch (err) {}
 
     } else if (activeType === 'albums') {
       newItem = {
@@ -180,19 +204,27 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         externalLink: externalLink || ''
       };
 
+      const dbPayload = {
+        title: newItem.title,
+        date: newItem.date,
+        cover: newItem.cover,
+        description: newItem.description,
+        file_url: newItem.fileUrl,
+        external_link: newItem.externalLink
+      };
       if (supabase) {
         try {
-          const { error: insErr } = await supabase.from('albums').insert([{
-            title: newItem.title,
-            date: newItem.date,
-            cover: newItem.cover,
-            description: newItem.description,
-            file_url: newItem.fileUrl,
-            external_link: newItem.externalLink
-          }]);
+          const { error: insErr } = await supabase.from('albums').insert([dbPayload]);
           if (insErr) console.error('Lỗi Supabase insert album:', insErr);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'albums', item: dbPayload })
+        });
+      } catch (err) {}
 
     } else if (activeType === 'videos') {
       const extractedYtId = extractYouTubeId(youtubeId || externalLink || '');
@@ -208,18 +240,26 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         externalLink: externalLink || (extractedYtId ? `https://www.youtube.com/watch?v=${extractedYtId}` : '')
       };
 
+      const dbPayload = {
+        title: newItem.title,
+        youtube_id: newItem.youtubeId,
+        video_url: newItem.videoUrl,
+        thumbnail_url: newItem.thumbnailUrl,
+        external_link: newItem.externalLink
+      };
       if (supabase) {
         try {
-          const { error: insErr } = await supabase.from('videos').insert([{
-            title: newItem.title,
-            youtube_id: newItem.youtubeId,
-            video_url: newItem.videoUrl,
-            thumbnail_url: newItem.thumbnailUrl,
-            external_link: newItem.externalLink
-          }]);
+          const { error: insErr } = await supabase.from('videos').insert([dbPayload]);
           if (insErr) console.error('Lỗi Supabase insert video:', insErr);
         } catch (err) {}
       }
+      try {
+        await fetch('/api/db/insert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ table: 'videos', item: dbPayload })
+        });
+      } catch (err) {}
     }
 
     if (onAddNewItem && newItem) {
