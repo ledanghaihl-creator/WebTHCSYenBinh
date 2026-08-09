@@ -192,24 +192,64 @@ export default function AdminPortal({
     setNewEmail('');
   };
 
-  const handleFileUpload = async (file, setUrlCallback) => {
+  const handleFileUpload = async (file, setUrlCallback, maxDimension = 1200) => {
     if (!file) return;
     setUploading(true);
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setUrlCallback(e.target.result);
-      setMessage(`✅ Đã đính kèm tệp tin: ${file.name}`);
-      setUploading(false);
-    };
-    reader.readAsDataURL(file);
+
+    if (file.type && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          setUrlCallback(compressedDataUrl);
+          setMessage(`✅ Đã nén và nhận tệp ảnh: ${file.name} (${Math.round(compressedDataUrl.length / 1024)} KB)`);
+          setUploading(false);
+        };
+        img.onerror = () => {
+          setUrlCallback(e.target.result);
+          setMessage(`✅ Đã đính kèm tệp tin: ${file.name}`);
+          setUploading(false);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUrlCallback(e.target.result);
+        setMessage(`✅ Đã đính kèm tệp tin: ${file.name}`);
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleSaveConfig = (e) => {
+  const handleSaveConfig = async (e) => {
     e.preventDefault();
     if (onSaveSiteConfig) {
-      onSaveSiteConfig(configState);
+      await onSaveSiteConfig(configState);
     }
-    setMessage('✅ Đã lưu thay đổi cấu hình Banner và Thông tin trường thành công!');
+    setMessage('🎉 ĐÃ LƯU THÀNH CÔNG BANNER, LOGO VÀ THÔNG TIN TRƯỜNG LÊN CLOUD CÔNG KHAI!');
   };
 
   const handleLoginSubmit = async (e) => {
@@ -647,7 +687,7 @@ export default function AdminPortal({
                     if (e.target.files && e.target.files[0]) {
                       handleFileUpload(e.target.files[0], (url) => {
                         setConfigState(prev => ({ ...prev, logoUrl: url }));
-                      });
+                      }, 400);
                     }
                   }} 
                   style={{ fontSize: '12px', marginBottom: '4px', width: '100%' }} 
@@ -669,7 +709,7 @@ export default function AdminPortal({
                     if (e.target.files && e.target.files[0]) {
                       handleFileUpload(e.target.files[0], (url) => {
                         setConfigState(prev => ({ ...prev, bannerBg: url }));
-                      });
+                      }, 1400);
                     }
                   }} 
                   style={{ fontSize: '12px', marginBottom: '4px', width: '100%' }} 
