@@ -436,6 +436,13 @@ export default function App() {
         await supabase.from('articles').delete().eq('id', articleId);
       } catch (err) {}
     }
+    try {
+      await fetch('/api/db/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'articles', id: articleId })
+      });
+    } catch (err) {}
   };
 
   const handleUpdateDocument = async (updatedDoc) => {
@@ -462,6 +469,13 @@ export default function App() {
         await supabase.from('documents').delete().eq('id', docId);
       } catch (err) {}
     }
+    try {
+      await fetch('/api/db/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'documents', id: docId })
+      });
+    } catch (err) {}
   };
 
   const handleDeleteAlbum = async (albumId) => {
@@ -471,6 +485,13 @@ export default function App() {
         await supabase.from('albums').delete().eq('id', albumId);
       } catch (err) {}
     }
+    try {
+      await fetch('/api/db/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'albums', id: albumId })
+      });
+    } catch (err) {}
   };
 
   const handleDeleteVideo = async (videoId) => {
@@ -480,6 +501,13 @@ export default function App() {
         await supabase.from('videos').delete().eq('id', videoId);
       } catch (err) {}
     }
+    try {
+      await fetch('/api/db/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'videos', id: videoId })
+      });
+    } catch (err) {}
   };
 
   const handleDeleteResource = async (resId) => {
@@ -489,6 +517,13 @@ export default function App() {
         await supabase.from('resources').delete().eq('id', resId);
       } catch (err) {}
     }
+    try {
+      await fetch('/api/db/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'resources', id: resId })
+      });
+    } catch (err) {}
   };
 
   const handleRegisterSuccess = (newPendingUser) => {
