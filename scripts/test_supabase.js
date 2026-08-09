@@ -10,35 +10,40 @@ const supabaseAnon = createClient(supabaseUrl, supabaseKey);
 const supabaseService = createClient(supabaseUrl, serviceKey);
 
 async function test() {
-  console.log('Testing Supabase Cloud Connection to:', supabaseUrl);
-  
-  // Test reading articles
-  const { data: art, error: artErr } = await supabaseAnon.from('articles').select('*');
-  console.log('Anon fetch articles:', { count: art?.length, error: artErr?.message });
+  console.log('Testing site_config upsert on Supabase:', supabaseUrl);
 
-  // Test reading documents
-  const { data: doc, error: docErr } = await supabaseAnon.from('documents').select('*');
-  console.log('Anon fetch documents:', { count: doc?.length, error: docErr?.message });
+  const { data: cfg, error: cfgErr } = await supabaseAnon.from('site_config').select('*').eq('id', 1).maybeSingle();
+  console.log('Current site_config:', { data: cfg, error: cfgErr?.message });
 
-  // Test inserting test document with anon
-  const { data: insDoc, error: insErr } = await supabaseAnon.from('documents').insert([{
-    code: 'TEST-001',
-    title: 'Văn bản test kết nối thiết bị',
-    category: 'Thông tư BGD&ĐT',
-    issue_date: '09/08/2026',
-    signer: 'THCS Yên Bình'
-  }]);
-  console.log('Anon insert test document:', { error: insErr?.message });
+  const { data: upData, error: upErr } = await supabaseAnon.from('site_config').upsert({
+    id: 1,
+    school_name: 'TRƯỜNG THCS YÊN BÌNH',
+    governing_body: 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
+    slogan: 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
+    address: 'Xã Yên Bình - Tỉnh Lạng Sơn',
+    phone: '(0205) 3885.6789',
+    email: 'thcsyenbinh.huulung@langson.edu.vn',
+    logo_url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&q=80',
+    banner_bg: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1200&q=80',
+    updated_at: new Date().toISOString()
+  });
 
-  if (insErr) {
-    const { data: srvIns, error: srvErr } = await supabaseService.from('documents').insert([{
-      code: 'TEST-SRV',
-      title: 'Văn bản test Service Role',
-      category: 'Thông tư BGD&ĐT',
-      issue_date: '09/08/2026',
-      signer: 'THCS Yên Bình'
-    }]);
-    console.log('Service role insert test document:', { error: srvErr?.message });
+  console.log('Anon upsert site_config:', { error: upErr?.message });
+
+  if (upErr) {
+    const { data: srvData, error: srvErr } = await supabaseService.from('site_config').upsert({
+      id: 1,
+      school_name: 'TRƯỜNG THCS YÊN BÌNH',
+      governing_body: 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
+      slogan: 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
+      address: 'Xã Yên Bình - Tỉnh Lạng Sơn',
+      phone: '(0205) 3885.6789',
+      email: 'thcsyenbinh.huulung@langson.edu.vn',
+      logo_url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&q=80',
+      banner_bg: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1200&q=80',
+      updated_at: new Date().toISOString()
+    });
+    console.log('Service role upsert site_config:', { error: srvErr?.message });
   }
 }
 

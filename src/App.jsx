@@ -329,6 +329,7 @@ export default function App() {
       localStorage.setItem('site_config', JSON.stringify(newConfig));
     } catch (e) {}
 
+    // Method 1: Save directly via Supabase Client
     if (supabase) {
       try {
         const { error } = await supabase.from('site_config').upsert({
@@ -343,11 +344,19 @@ export default function App() {
           banner_bg: newConfig.bannerBg,
           updated_at: new Date().toISOString()
         });
-        if (error) console.error('Lỗi lưu site_config lên Supabase:', error);
-      } catch (err) {
-        console.error('Exception site_config:', err);
-      }
+        if (error) console.error('Lỗi lưu site_config lên Supabase Client:', error);
+      } catch (err) {}
     }
+
+    // Method 2: Persistent Fallback via Backend Service API (uses Service Role Key)
+    try {
+      await fetch('/api/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newConfig)
+      });
+    } catch (err) {}
+
     fetchCloudData();
   };
 
