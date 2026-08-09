@@ -94,7 +94,7 @@ router.post('/', authGuard, async (req, res) => {
     const category = await get('SELECT name FROM categories WHERE id = ?', [categoryId || 1]);
     const categoryName = category ? category.name : 'Tin tức - Sự kiện';
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') + '-' + Date.now();
-    const author = req.user.fullName || 'Ban Biên Tập THCS Đồng Tân';
+    const author = req.user.fullName || 'Ban Biên Tập THCS Yên Bình';
 
     const result = await run(
       `INSERT INTO articles (title, slug, categoryId, categoryName, summary, content, image, author, isFeatured, views) 

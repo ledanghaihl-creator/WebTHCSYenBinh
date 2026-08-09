@@ -2,11 +2,11 @@ import React from 'react';
 
 export default function Footer({ siteConfig }) {
   const config = siteConfig || {
-    schoolName: 'TRƯỜNG THCS ĐỒNG TÂN',
-    governingBody: 'UBND Xã Hữu Lũng - Tỉnh Lạng Sơn',
-    address: 'Xã Hữu Lũng - Tỉnh Lạng Sơn',
+    schoolName: 'TRƯỜNG THCS YÊN BÌNH',
+    governingBody: 'UBND Xã Yên Bình - Tỉnh Lạng Sơn',
+    address: 'Xã Yên Bình - Tỉnh Lạng Sơn',
     phone: '(0205) 3885.6789',
-    email: 'thcsdongtan.huulung@langson.edu.vn'
+    email: 'thcsyenbinh.huulung@langson.edu.vn'
   };
 
   return (
@@ -43,7 +43,7 @@ export default function Footer({ siteConfig }) {
       </div>
 
       <div className="footer-bottom">
-        Bản quyền © 2026 {config.schoolName} - Xã Hữu Lũng, Tỉnh Lạng Sơn. Tất cả quyền được bảo lưu.
+        Bản quyền © 2026 {config.schoolName} - Xã Yên Bình, Tỉnh Lạng Sơn. Tất cả quyền được bảo lưu.
       </div>
     </footer>
   );

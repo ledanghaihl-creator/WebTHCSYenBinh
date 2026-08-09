@@ -2,10 +2,10 @@ import React from 'react';
 
 export default function HeaderBanner({ siteConfig }) {
   const config = siteConfig || {};
-  const schoolName = config.schoolName || 'TRƯỜNG THCS ĐỒNG TÂN';
-  const governingBody = config.governingBody || 'ỦY BAN NHÂN DÂN XÃ HỮU LŨNG - TỈNH LẠNG SƠN';
+  const schoolName = config.schoolName || 'TRƯỜNG THCS YÊN BÌNH';
+  const governingBody = config.governingBody || 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN';
   const slogan = config.slogan || 'HỘI TỤ - KẾT TINH - TỎA SÁNG';
-  const address = config.address || 'Xã Hữu Lũng - Tỉnh Lạng Sơn';
+  const address = config.address || 'Xã Yên Bình - Tỉnh Lạng Sơn';
   const phone = config.phone || '(0205) 3885.6789';
   
   // Official school logo and background
@@ -23,7 +23,7 @@ export default function HeaderBanner({ siteConfig }) {
       <div className="header-content">
         <img 
           src={logoUrl} 
-          alt="Logo TRƯỜNG THCS ĐỒNG TÂN - 1954" 
+          alt="Logo TRƯỜNG THCS YÊN BÌNH" 
           className="school-logo" 
         />
         <div className="header-text">

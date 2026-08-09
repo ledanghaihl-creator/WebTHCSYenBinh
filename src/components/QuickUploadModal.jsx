@@ -32,7 +32,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
   const [fileName, setFileName] = useState('');
   const [externalLink, setExternalLink] = useState('');
   const [issueDate, setIssueDate] = useState('08/08/2026');
-  const [signer, setSigner] = useState('Hiệu trưởng THCS Đồng Tân');
+  const [signer, setSigner] = useState('Hiệu trưởng THCS Yên Bình');
   const [author, setAuthor] = useState('Tổ Chuyên Môn');
 
   // File Upload Handler (Base64 Embedded File Storage for Global Cross-Device Access)
@@ -76,7 +76,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         title: title || 'Văn bản chỉ đạo mới ban hành',
         category: 'Thông tư BGD&ĐT',
         issueDate: issueDate || '08/08/2026',
-        signer: signer || 'BGH THCS Đồng Tân',
+        signer: signer || 'BGH THCS Yên Bình',
         views: 1,
         downloads: 0,
         fileUrl: fileUrl || '#',
@@ -139,7 +139,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
         summary: summary || title,
         content: content || summary || title,
         image: fileUrl || 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80',
-        author: 'Ban Biên Tập THCS Đồng Tân',
+        author: 'Ban Biên Tập THCS Yên Bình',
         isFeatured: 0,
         views: 1,
         createdAt: '2026-08-08 08:00:00',
@@ -349,7 +349,7 @@ export default function QuickUploadModal({ defaultTab = 'docs', categories = [],
               <>
                 <div>
                   <label style={{ display: 'block', fontWeight: '700', fontSize: '13px', marginBottom: '4px' }}>Tiêu đề Video hoạt động:</label>
-                  <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="VD: Video Khai giảng năm học 2026 THCS Đồng Tân" />
+                  <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="VD: Video Khai giảng năm học 2026 THCS Yên Bình" />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontWeight: '700', fontSize: '13px', marginBottom: '4px' }}>Đường link Video YouTube (Hoặc mã ID):</label>

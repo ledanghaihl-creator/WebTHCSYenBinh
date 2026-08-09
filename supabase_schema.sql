@@ -1,5 +1,5 @@
 -- =========================================================================
--- KỊCH BẢN KHOẢNG KHỞI TẠO DỮ LIỆU SUPABASE POSTGRESQL THCS ĐỒNG TÂN (AN TOÀN 100%)
+-- KỊCH BẢN KHOẢNG KHỞI TẠO DỮ LIỆU SUPABASE POSTGRESQL THCS YÊN BÌNH (AN TOÀN 100%)
 -- Sao chép toàn bộ mã SQL dưới đây và dán vào Supabase Dashboard: SQL Editor -> Run
 -- =========================================================================
 
@@ -213,16 +213,16 @@ INSERT INTO public.categories (id, name, slug, icon) VALUES
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.users (id, username, password, full_name, role, email, status) VALUES
-(1, 'admin', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Thầy Hiệu Trưởng - THCS Đồng Tân', 'BGH', 'bgh.thcsdongtan@langson.edu.vn', 'ACTIVE'),
-(2, 'giaovien', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', 'GIAO_VIEN', 'hoanguyen@thcsdongtan.edu.vn', 'ACTIVE')
+(1, 'admin', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Thầy Hiệu Trưởng - THCS Yên Bình', 'BGH', 'bgh.thcsyenbinh@langson.edu.vn', 'ACTIVE'),
+(2, 'giaovien', '$2a$10$84J.N1i1JvCjJmI/K2D/Me1M.Kx7XG1t3VnS3bK7V9tL.u8.k1u.', 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', 'GIAO_VIEN', 'hoanguyen@thcsyenbinh.edu.vn', 'ACTIVE')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.site_config (id, school_name, governing_body, slogan, address, phone, email, logo_url, banner_bg) VALUES
-(1, 'TRƯỜNG THCS ĐỒNG TÂN', 'ỦY BAN NHÂN DÂN XÃ HỮU LŨNG - TỈNH LẠNG SƠN', 'HỘI TỤ - KẾT TINH - TỎA SÁNG', 'Xã Hữu Lũng - Tỉnh Lạng Sơn', '(0205) 3885.6789', 'thcsdongtan.huulung@langson.edu.vn', '/images/school-logo.jpg', '/images/school-banner.png')
+(1, 'TRƯỜNG THCS YÊN BÌNH', 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN', 'HỘI TỤ - KẾT TINH - TỎA SÁNG', 'Xã Yên Bình - Tỉnh Lạng Sơn', '(0205) 3885.6789', 'thcsyenbinh.huulung@langson.edu.vn', '/images/school-logo.jpg', '/images/school-banner.png')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.articles (id, title, slug, category_id, category_name, summary, content, image, author, is_featured, views) VALUES
-(1, 'Lễ kết nạp Đảng viên mới cho cán bộ giáo viên THCS Đồng Tân', 'le-ket-nap-dang-vien-moi', 1, 'Tin tức - Sự kiện', 'Vào lúc 14 giờ 00, Chi bộ trường THCS Đồng Tân đã long trọng tổ chức Lễ kết nạp Đảng viên cho giáo viên ưu tú có nhiều thành tích xuất sắc.', 'Chiều ngày 04/08/2026, Chi bộ Trường THCS Đồng Tân đã tiến hành Lễ kết nạp Đảng viên cho quần chúng ưu tú.', 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80', 'Ban Biên Tập THCS Đồng Tân', 1, 1250)
+(1, 'Lễ kết nạp Đảng viên mới cho cán bộ giáo viên THCS Yên Bình', 'le-ket-nap-dang-vien-moi', 1, 'Tin tức - Sự kiện', 'Vào lúc 14 giờ 00, Chi bộ trường THCS Yên Bình đã long trọng tổ chức Lễ kết nạp Đảng viên cho giáo viên ưu tú có nhiều thành tích xuất sắc.', 'Chiều ngày 04/08/2026, Chi bộ Trường THCS Yên Bình đã tiến hành Lễ kết nạp Đảng viên cho quần chúng ưu tú.', 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80', 'Ban Biên Tập THCS Yên Bình', 1, 1250)
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.documents (id, code, title, category, issue_date, signer, views, downloads) VALUES
@@ -231,5 +231,5 @@ INSERT INTO public.documents (id, code, title, category, issue_date, signer, vie
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.videos (id, title, youtube_id, thumbnail_url, views) VALUES
-(1, 'Phim tư liệu: 40 năm truyền thống Dạy tốt - Học tốt THCS Đồng Tân', 'k8F4q_N-g_w', 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80', 1540)
+(1, 'Hoạt động trải nghiệm sáng tạo STEM môn Sinh - Hóa tại THCS Yên Bình', 'dQw4w9WgXcQ', 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80', 920)
 ON CONFLICT (id) DO NOTHING;

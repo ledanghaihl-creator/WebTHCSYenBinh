@@ -38,7 +38,7 @@ app.use(requestLogger);
 
 // Initialize Database (Tầng 4: Main DB)
 initDb().then(() => {
-  console.log('[Database] CSDL SQLite đã khởi tạo và cấu hình dữ liệu THCS Đồng Tân thành công!');
+  console.log('[Database] CSDL SQLite đã khởi tạo và cấu hình dữ liệu THCS Yên Bình thành công!');
 }).catch(err => {
   console.error('[Database Error]', err);
 });
@@ -55,7 +55,7 @@ app.use('/api/upload', uploadRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
-    system: 'Portal THCS Đồng Tân - Backend API Engine',
+    system: 'Portal THCS Yên Bình - Backend API Engine',
     timestamp: new Date().toISOString(),
     version: '2026.1.0'
   });
@@ -68,7 +68,7 @@ app.get('*', (req, res) => {
   if (!req.originalUrl.startsWith('/api') && !req.originalUrl.startsWith('/uploads')) {
     res.sendFile(path.join(distPath, 'index.html'), (err) => {
       if (err) {
-        res.status(200).send('Cổng thông tin THCS Đồng Tân API đang hoạt động tại cổng ' + PORT);
+        res.status(200).send('Cổng thông tin THCS Yên Bình API đang hoạt động tại cổng ' + PORT);
       }
     });
   }
@@ -76,7 +76,7 @@ app.get('*', (req, res) => {
 
 const server = app.listen(PORT, () => {
   console.log(`=======================================================`);
-  console.log(`🚀 API Gateway & Backend Services THCS Đồng Tân`);
+  console.log(`🚀 API Gateway & Backend Services THCS Yên Bình`);
   console.log(`🌐 Website đang chạy tại: http://localhost:${PORT}`);
   console.log(`=======================================================`);
 });

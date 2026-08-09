@@ -7,7 +7,7 @@ export default function AlbumsView({ albums = [] }) {
   const albumList = albums.length > 0 ? albums : [
     {
       id: 1,
-      title: 'Album: Lễ Khai giảng năm học 2026 - 2027 THCS Đồng Tân',
+      title: 'Album: Lễ Khai giảng năm học 2026 - 2027 THCS Yên Bình',
       date: '05/09/2026',
       photosCount: 18,
       cover: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=80',
@@ -44,7 +44,7 @@ export default function AlbumsView({ albums = [] }) {
       <div className="widget-box">
         <div className="widget-header">
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Image size={18} /> THƯ VIỆN ALBUMS ẢNH HOẠT ĐỘNG THCS ĐỒNG TÂN
+            <Image size={18} /> THƯ VIỆN ALBUMS ẢNH HOẠT ĐỘNG THCS YÊN BÌNH
           </span>
         </div>
         <div className="widget-body" style={{ padding: '20px' }}>

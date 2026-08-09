@@ -69,7 +69,7 @@ router.post('/', authGuard, async (req, res) => {
     const result = await run(
       `INSERT INTO documents (code, title, category, issueDate, signer, fileUrl, externalLink, views, downloads) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [code, title, category || 'Thông tư BGD&ĐT', issueDate, signer || 'THCS Đồng Tân', fileUrl || '', externalLink || '', 10, 1]
+      [code, title, category || 'Thông tư BGD&ĐT', issueDate, signer || 'THCS Yên Bình', fileUrl || '', externalLink || '', 10, 1]
     );
 
     res.json({ success: true, message: 'Thêm văn bản mới thành công!', id: result.id, fileUrl, externalLink });

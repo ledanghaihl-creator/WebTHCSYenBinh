@@ -14,7 +14,7 @@ export default function BulkUploadModal({ onClose, onBulkUploadSuccess }) {
   const [defaultSubject, setDefaultSubject] = useState('Toán 9');
   const [defaultResourceType, setDefaultResourceType] = useState('Đề thi & Đáp án');
   const [defaultDocCategory, setDefaultDocCategory] = useState('Thông tư BGD&ĐT');
-  const [defaultSigner, setDefaultSigner] = useState('Hiệu trưởng THCS Đồng Tân');
+  const [defaultSigner, setDefaultSigner] = useState('Hiệu trưởng THCS Yên Bình');
   const [defaultAuthor, setDefaultAuthor] = useState('Tổ Chuyên Môn');
 
   const handleSelectFiles = (files) => {

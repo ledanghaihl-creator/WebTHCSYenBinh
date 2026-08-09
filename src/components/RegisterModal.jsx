@@ -68,7 +68,7 @@ export default function RegisterModal({ onClose, onRegisterSuccess }) {
       <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '520px' }}>
         <div className="modal-header" style={{ background: '#0056a6' }}>
           <span style={{ fontSize: '14px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <UserPlus size={18} /> ĐĂNG KÝ THÀNH VIÊN THCS ĐỒNG TÂN
+            <UserPlus size={18} /> ĐĂNG KÝ THÀNH VIÊN THCS YÊN BÌNH
           </span>
           <button className="close-btn" onClick={onClose}><X size={20} /></button>
         </div>

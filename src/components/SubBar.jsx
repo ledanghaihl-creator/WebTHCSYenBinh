@@ -24,7 +24,7 @@ export default function SubBar({ announcements = [], onSearch }) {
 
   const tickerContent = announcements.length > 0
     ? announcements.map(a => a.content).join('  ❖  ')
-    : 'Chào mừng quý thầy cô, phụ huynh và các em học sinh đến với trang Web chính thức của trường THCS Đồng Tân, Hà Nội!';
+    : 'Chào mừng quý thầy cô, phụ huynh và các em học sinh đến với trang Web chính thức của trường THCS Yên Bình, Xã Yên Bình, Lạng Sơn!';
 
   return (
     <div className="sub-bar">

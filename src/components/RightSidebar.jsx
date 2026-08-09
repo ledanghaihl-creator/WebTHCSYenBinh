@@ -5,7 +5,7 @@ export default function RightSidebar({ videos = [], documents = [], onSelectDocu
   const [selectedVideo, setSelectedVideo] = useState(videos[0] || null);
 
   const activeVid = selectedVideo || videos[0] || {
-    title: 'Phim tư liệu: 40 năm truyền thống THCS Đồng Tân',
+    title: 'Hoạt động trải nghiệm sáng tạo STEM tại THCS Yên Bình',
     youtubeId: 'dQw4w9WgXcQ'
   };
 

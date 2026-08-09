@@ -3,11 +3,11 @@ import { Award, Users, BookOpen, MapPin, CheckCircle } from 'lucide-react';
 
 export default function IntroView({ introData }) {
   const intro = introData || {
-    history: 'Trường THCS Đồng Tân được thành lập và phát triển trên địa bàn Xã Hữu Lũng, Tỉnh Lạng Sơn. Qua nhiều năm xây dựng và trưởng thành, nhà trường luôn phấn đấu đạt danh hiệu Trường học thân thiện, Học sinh tích cực, nâng cao chất lượng giáo dục toàn diện.',
+    history: 'Trường THCS Yên Bình được thành lập và phát triển trên địa bàn Xã Yên Bình, Tỉnh Lạng Sơn. Qua nhiều năm xây dựng và trưởng thành, nhà trường luôn phấn đấu đạt danh hiệu Trường học thân thiện, Học sinh tích cực, nâng cao chất lượng giáo dục toàn diện.',
     mission: 'Xây dựng môi trường giáo dục kỷ cương, tình thương, trách nhiệm; giúp học sinh phát triển toàn diện cả về trí tuệ, thể chất và đạo đức.',
     vision: 'Phấn đấu trở thành trường Trung học cơ sở đạt chuẩn quốc gia cấp độ cao, đi đầu trong chuyển đổi số giáo dục tại Tỉnh Lạng Sơn.',
-    principal: 'Thầy Hiệu Trưởng - THCS Đồng Tân',
-    vicePrincipal: 'Cô Phó Hiệu Trưởng - THCS Đồng Tân',
+    principal: 'Thầy Hiệu Trưởng - THCS Yên Bình',
+    vicePrincipal: 'Cô Phó Hiệu Trưởng - THCS Yên Bình',
     totalTeachers: 35,
     totalStudents: 520,
     classes: 14
@@ -17,7 +17,7 @@ export default function IntroView({ introData }) {
     <div style={{ padding: '20px', maxWidth: '1100px', margin: '0 auto' }}>
       <div className="widget-box" style={{ marginBottom: '20px' }}>
         <div className="widget-header">
-          <span>🏛️ GIỚI THIỆU TỔNG QUAN TRƯỜNG THCS ĐỒNG TÂN - LẠNG SƠN</span>
+          <span>🏛️ GIỚI THIỆU TỔNG QUAN TRƯỜNG THCS YÊN BÌNH - LẠNG SƠN</span>
         </div>
         <div className="widget-body" style={{ padding: '20px' }}>
           
@@ -60,7 +60,7 @@ export default function IntroView({ introData }) {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0' }}>
                   <span>📍 Địa bàn:</span>
-                  <strong>Xã Hữu Lũng, Lạng Sơn</strong>
+                  <strong>Xã Yên Bình, Lạng Sơn</strong>
                 </div>
               </div>
             </div>

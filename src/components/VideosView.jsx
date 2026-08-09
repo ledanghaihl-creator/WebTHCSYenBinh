@@ -5,17 +5,17 @@ export default function VideosView({ videos = [], onOpenUpload }) {
   const videoList = videos.length > 0 ? videos : [
     {
       id: 1,
-      title: 'Phim tư liệu: 40 năm truyền thống Dạy tốt - Học tốt THCS Đồng Tân',
-      youtubeId: 'k8F4q_N-g_w',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80',
-      views: 1540
-    },
-    {
-      id: 2,
       title: 'Hoạt động trải nghiệm sáng tạo STEM môn Sinh - Hóa lớp 9',
       youtubeId: 'dQw4w9WgXcQ',
       thumbnailUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',
       views: 920
+    },
+    {
+      id: 2,
+      title: 'Phim tư liệu: Hoạt động học tập và ngoại khóa tại THCS Yên Bình',
+      youtubeId: 'k8F4q_N-g_w',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80',
+      views: 1540
     }
   ];
 
@@ -35,7 +35,7 @@ export default function VideosView({ videos = [], onOpenUpload }) {
       <div className="widget-box">
         <div className="widget-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Video size={18} /> THƯ VIỆN VIDEO HOẠT ĐỘNG THCS ĐỒNG TÂN
+            <Video size={18} /> THƯ VIỆN VIDEO HOẠT ĐỘNG THCS YÊN BÌNH
           </span>
 
           <button 
@@ -92,7 +92,7 @@ export default function VideosView({ videos = [], onOpenUpload }) {
                     🎬 {activeVideo.title}
                   </h2>
                   <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-                    👁️ {activeVideo.views || 100} lượt xem | THCS Đồng Tân Channel
+                    👁️ {activeVideo.views || 100} lượt xem | THCS Yên Bình Channel
                   </span>
                 </div>
 

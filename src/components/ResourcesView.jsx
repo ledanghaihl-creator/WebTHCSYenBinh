@@ -54,7 +54,7 @@ export default function ResourcesView({ resources = [], onOpenUpload, onOpenBulk
       <div className="widget-box">
         <div className="widget-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <BookOpen size={18} /> KHO TÀI NGUYÊN GIẢNG DẠY & ĐỀ THI - THCS ĐỒNG TÂN
+            <BookOpen size={18} /> KHO TÀI NGUYÊN GIẢNG DẠY & ĐỀ THI - THCS YÊN BÌNH
           </span>
 
           <div style={{ display: 'flex', gap: '8px' }}>

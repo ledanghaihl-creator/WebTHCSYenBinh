@@ -82,7 +82,7 @@ export const initDb = async () => {
         image TEXT,
         fileUrl TEXT DEFAULT '',
         externalLink TEXT DEFAULT '',
-        author TEXT DEFAULT 'Ban Biên Tập THCS Đồng Tân',
+        author TEXT DEFAULT 'Ban Biên Tập THCS Yên Bình',
         isFeatured INTEGER DEFAULT 0,
         views INTEGER DEFAULT 120,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -138,15 +138,15 @@ export const initDb = async () => {
         const hashedPassword = await bcrypt.hash('admin123', 10);
         db.run(
           `INSERT INTO users (username, password, fullName, role, email, status) VALUES (?, ?, ?, ?, ?, ?)`,
-          ['admin', hashedPassword, 'Thầy Hiệu Trưởng - THCS Đồng Tân', 'BGH', 'bgh.thcsdongtan@langson.edu.vn', 'ACTIVE']
+          ['admin', hashedPassword, 'Thầy Hiệu Trưởng - THCS Yên Bình', 'BGH', 'bgh.thcsyenbinh@langson.edu.vn', 'ACTIVE']
         );
         db.run(
           `INSERT INTO users (username, password, fullName, role, email, status) VALUES (?, ?, ?, ?, ?, ?)`,
-          ['giaovien', hashedPassword, 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', 'GIAO_VIEN', 'hoanguyen@thcsdongtan.edu.vn', 'ACTIVE']
+          ['giaovien', hashedPassword, 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', 'GIAO_VIEN', 'hoanguyen@thcsyenbinh.edu.vn', 'ACTIVE']
         );
         db.run(
           `INSERT INTO users (username, password, fullName, role, email, status) VALUES (?, ?, ?, ?, ?, ?)`,
-          ['hocsinh01', hashedPassword, 'Em Nguyễn Văn An - Học sinh 9A1', 'HOC_SINH', 'an.nguyen@thcsdongtan.edu.vn', 'PENDING']
+          ['hocsinh01', hashedPassword, 'Em Nguyễn Văn An - Học sinh 9A1', 'HOC_SINH', 'an.nguyen@thcsyenbinh.edu.vn', 'PENDING']
         );
       }
     });

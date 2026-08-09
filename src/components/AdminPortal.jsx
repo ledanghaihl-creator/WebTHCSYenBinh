@@ -32,12 +32,12 @@ export default function AdminPortal({
 
   // Site Config State
   const [configState, setConfigState] = useState({
-    schoolName: siteConfig.schoolName || 'TRƯỜNG THCS ĐỒNG TÂN',
-    governingBody: siteConfig.governingBody || 'ỦY BAN NHÂN DÂN XÃ HỮU LŨNG - TỈNH LẠNG SƠN',
+    schoolName: siteConfig.schoolName || 'TRƯỜNG THCS YÊN BÌNH',
+    governingBody: siteConfig.governingBody || 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
     slogan: siteConfig.slogan || 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
-    address: siteConfig.address || 'Xã Hữu Lũng - Tỉnh Lạng Sơn',
+    address: siteConfig.address || 'Xã Yên Bình - Tỉnh Lạng Sơn',
     phone: siteConfig.phone || '(0205) 3885.6789',
-    email: siteConfig.email || 'thcsdongtan.huulung@langson.edu.vn',
+    email: siteConfig.email || 'thcsyenbinh.huulung@langson.edu.vn',
     logoUrl: siteConfig.logoUrl || '/images/school-logo.jpg',
     bannerBg: siteConfig.bannerBg || '/images/school-banner.png'
   });
@@ -46,8 +46,8 @@ export default function AdminPortal({
   const [userList, setUserList] = useState(() => {
     const saved = localStorage.getItem('portal_users');
     return saved ? JSON.parse(saved) : [
-      { id: 1, username: 'admin', fullName: 'Thầy Hiệu Trưởng - THCS Đồng Tân', role: 'BGH', email: 'bgh.thcsdongtan@langson.edu.vn', status: 'ACTIVE', createdAt: '08/08/2026' },
-      { id: 2, username: 'giaovien', fullName: 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', role: 'GIAO_VIEN', email: 'hoanguyen@thcsdongtan.edu.vn', status: 'ACTIVE', createdAt: '08/08/2026' }
+      { id: 1, username: 'admin', fullName: 'Thầy Hiệu Trưởng - THCS Yên Bình', role: 'BGH', email: 'bgh.thcsyenbinh@langson.edu.vn', status: 'ACTIVE', createdAt: '08/08/2026' },
+      { id: 2, username: 'giaovien', fullName: 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', role: 'GIAO_VIEN', email: 'hoanguyen@thcsyenbinh.edu.vn', status: 'ACTIVE', createdAt: '08/08/2026' }
     ];
   });
 
@@ -83,7 +83,7 @@ export default function AdminPortal({
   const [docTitle, setDocTitle] = useState('');
   const [docCategory, setDocCategory] = useState('Thông tư BGD&ĐT');
   const [docIssueDate, setDocIssueDate] = useState('08/08/2026');
-  const [docSigner, setDocSigner] = useState('Hiệu trưởng THCS Đồng Tân');
+  const [docSigner, setDocSigner] = useState('Hiệu trưởng THCS Yên Bình');
   const [docFileUrl, setDocFileUrl] = useState('');
   const [docExternalLink, setDocExternalLink] = useState('');
 
@@ -224,9 +224,9 @@ export default function AdminPortal({
 
     if ((username === 'admin' && password === 'admin123') || (username === 'giaovien' && password === 'admin123')) {
       const dummyUser = username === 'admin'
-        ? { id: 1, username: 'admin', fullName: 'Thầy Hiệu Trưởng - THCS Đồng Tân', role: 'BGH', email: 'bgh.thcsdongtan@langson.edu.vn' }
-        : { id: 2, username: 'giaovien', fullName: 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', role: 'GIAO_VIEN', email: 'hoanguyen@thcsdongtan.edu.vn' };
-      onLogin('TOKEN_ADMIN_THCS_DONG_TAN_2026', dummyUser);
+        ? { id: 1, username: 'admin', fullName: 'Thầy Hiệu Trưởng - THCS Yên Bình', role: 'BGH', email: 'bgh.thcsyenbinh@langson.edu.vn' }
+        : { id: 2, username: 'giaovien', fullName: 'Cô Nguyễn Thị Hoa - Giáo Viên Văn', role: 'GIAO_VIEN', email: 'hoanguyen@thcsyenbinh.edu.vn' };
+      onLogin('TOKEN_ADMIN_THCS_YEN_BINH_2026', dummyUser);
       return;
     }
 
@@ -307,7 +307,7 @@ export default function AdminPortal({
     setDocTitle(doc.title);
     setDocCategory(doc.category || 'Thông tư BGD&ĐT');
     setDocIssueDate(doc.issueDate || '08/08/2026');
-    setDocSigner(doc.signer || 'BGH THCS Đồng Tân');
+    setDocSigner(doc.signer || 'BGH THCS Yên Bình');
     setDocFileUrl(doc.fileUrl || '');
     setDocExternalLink(doc.externalLink || '');
     setAdminTab('docs');
@@ -591,7 +591,7 @@ export default function AdminPortal({
             </div>
             <div>
               <label style={{ display: 'block', fontSize: '13px', fontWeight: '700', marginBottom: '4px' }}>Tên Trường Học:</label>
-              <input type="text" value={configState.schoolName} onChange={(e) => setConfigState({ ...configState, schoolName: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="TRƯỜNG THCS ĐỒNG TÂN" />
+              <input type="text" value={configState.schoolName} onChange={(e) => setConfigState({ ...configState, schoolName: e.target.value })} style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="TRƯỜNG THCS YÊN BÌNH" />
             </div>
           </div>
 
@@ -720,7 +720,7 @@ export default function AdminPortal({
           </h3>
           <div>
             <label style={{ display: 'block', fontWeight: '600', marginBottom: '4px' }}>Tiêu đề bài viết:</label>
-            <input type="text" value={newsTitle} onChange={(e) => setNewsTitle(e.target.value)} required style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="VD: Lễ Tuyên dương học sinh giỏi THCS Đồng Tân" />
+            <input type="text" value={newsTitle} onChange={(e) => setNewsTitle(e.target.value)} required style={{ width: '100%', padding: '8px', border: '1px solid #cbd5e1', borderRadius: '4px' }} placeholder="VD: Lễ Tuyên dương học sinh giỏi THCS Yên Bình" />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
             <div>

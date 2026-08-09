@@ -22,12 +22,12 @@ import { supabase } from './lib/supabaseClient';
 
 // Initial Fallback Site Config
 const INITIAL_SITE_CONFIG = {
-  schoolName: 'TRƯỜNG THCS ĐỒNG TÂN',
-  governingBody: 'ỦY BAN NHÂN DÂN XÃ HỮU LŨNG - TỈNH LẠNG SƠN',
+  schoolName: 'TRƯỜNG THCS YÊN BÌNH',
+  governingBody: 'ỦY BAN NHÂN DÂN XÃ YÊN BÌNH - TỈNH LẠNG SƠN',
   slogan: 'HỘI TỤ - KẾT TINH - TỎA SÁNG',
-  address: 'Xã Hữu Lũng - Tỉnh Lạng Sơn',
+  address: 'Xã Yên Bình - Tỉnh Lạng Sơn',
   phone: '(0205) 3885.6789',
-  email: 'thcsdongtan.huulung@langson.edu.vn',
+  email: 'thcsyenbinh.huulung@langson.edu.vn',
   logoUrl: '/images/school-logo.jpg',
   bannerBg: '/images/school-banner.png'
 };
@@ -43,14 +43,14 @@ const INITIAL_CATEGORIES = [
 
 const INITIAL_FEATURED_NEWS = {
   id: 1,
-  title: 'Lễ kết nạp Đảng viên mới cho cán bộ giáo viên THCS Đồng Tân',
+  title: 'Lễ kết nạp Đảng viên mới cho cán bộ giáo viên THCS Yên Bình',
   slug: 'le-ket-nap-dang-vien-moi',
   categoryId: 1,
   categoryName: 'Tin tức - Sự kiện',
-  summary: 'Vào lúc 14 giờ 00, Chi bộ trường THCS Đồng Tân đã long trọng tổ chức Lễ kết nạp Đảng viên cho giáo viên ưu tú có nhiều thành tích xuất sắc.',
-  content: 'Chiều ngày 04/08/2026, Chi bộ Trường THCS Đồng Tân đã tiến hành Lễ kết nạp Đảng viên cho quần chúng ưu tú.',
+  summary: 'Vào lúc 14 giờ 00, Chi bộ trường THCS Yên Bình đã long trọng tổ chức Lễ kết nạp Đảng viên cho giáo viên ưu tú có nhiều thành tích xuất sắc.',
+  content: 'Chiều ngày 04/08/2026, Chi bộ Trường THCS Yên Bình đã tiến hành Lễ kết nạp Đảng viên cho quần chúng ưu tú.',
   image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&q=80',
-  author: 'Ban Biên Tập THCS Đồng Tân',
+  author: 'Ban Biên Tập THCS Yên Bình',
   isFeatured: 1,
   views: 1250,
   createdAt: '2026-08-04 08:00:00'
@@ -90,17 +90,17 @@ const INITIAL_DOCUMENTS = [
 const INITIAL_VIDEOS = [
   {
     id: 1,
-    title: 'Phim tư liệu: 40 năm truyền thống Dạy tốt - Học tốt THCS Đồng Tân',
-    youtubeId: 'k8F4q_N-g_w',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?w=600&q=80',
-    views: 1540
+    title: 'Hoạt động trải nghiệm sáng tạo STEM môn Sinh - Hóa tại THCS Yên Bình',
+    youtubeId: 'dQw4w9WgXcQ',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',
+    views: 920
   }
 ];
 
 const INITIAL_ALBUMS = [
   {
     id: 1,
-    title: 'Album: Lễ Khai giảng năm học 2026 - 2027 THCS Đồng Tân',
+    title: 'Album: Lễ Khai giảng năm học 2026 - 2027 THCS Yên Bình',
     date: '05/09/2026',
     photosCount: 18,
     cover: '/images/school-banner.png',
@@ -126,7 +126,7 @@ const INITIAL_SCHEDULES = [
 ];
 
 const INITIAL_ANNOUNCEMENTS = [
-  { id: 1, content: 'Chào mừng quý phụ huynh và học sinh đến với trang Web chính thức của trường THCS Đồng Tân, Xã Hữu Lũng, Lạng Sơn!' }
+  { id: 1, content: 'Chào mừng quý phụ huynh và học sinh đến với trang Web chính thức của trường THCS Yên Bình, Xã Yên Bình, Lạng Sơn!' }
 ];
 
 export default function App() {
@@ -551,7 +551,7 @@ export default function App() {
         <div style={{ padding: '20px' }}>
           <div className="widget-box">
             <div className="widget-header orange" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>📄 TRA CỨU VĂN BẢN CHỈ ĐẠO & QUY CHẾ THCS ĐỒNG TÂN</span>
+              <span>📄 TRA CỨU VĂN BẢN CHỈ ĐẠO & QUY CHẾ THCS YÊN BÌNH</span>
 
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button 

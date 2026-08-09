@@ -41,7 +41,7 @@ export default function NewsDetailModal({ article, onClose }) {
           </div>
 
           <div style={{ marginTop: '25px', paddingTop: '15px', borderTop: '1px dashed #cbd5e1', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: '12px', color: '#64748b' }}>Nguồn: Cổng Thông tin Điện tử THCS Đồng Tân</span>
+            <span style={{ fontSize: '12px', color: '#64748b' }}>Nguồn: Cổng Thông tin Điện tử THCS Yên Bình</span>
             <button 
               style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#e0f2fe', color: '#0369a1', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontWeight: '500' }}
               onClick={() => alert('Đã sao chép liên kết bài viết!')}
