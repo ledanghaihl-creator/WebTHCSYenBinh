@@ -283,16 +283,29 @@ export default function App() {
         })));
       }
 
-      if (cfgData) {
+      let finalCfgData = cfgData;
+      if (!finalCfgData) {
+        try {
+          const res = await fetch('/api/config');
+          if (res.ok) {
+            const apiRes = await res.json();
+            if (apiRes.success && apiRes.data) {
+              finalCfgData = apiRes.data;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (finalCfgData) {
         const mergedConfig = {
-          schoolName: cfgData.school_name || INITIAL_SITE_CONFIG.schoolName,
-          governingBody: cfgData.governing_body || INITIAL_SITE_CONFIG.governingBody,
-          slogan: cfgData.slogan || INITIAL_SITE_CONFIG.slogan,
-          address: cfgData.address || INITIAL_SITE_CONFIG.address,
-          phone: cfgData.phone || INITIAL_SITE_CONFIG.phone,
-          email: cfgData.email || INITIAL_SITE_CONFIG.email,
-          logoUrl: cfgData.logo_url || INITIAL_SITE_CONFIG.logoUrl,
-          bannerBg: cfgData.banner_bg || INITIAL_SITE_CONFIG.bannerBg
+          schoolName: finalCfgData.school_name || finalCfgData.schoolName || INITIAL_SITE_CONFIG.schoolName,
+          governingBody: finalCfgData.governing_body || finalCfgData.governingBody || INITIAL_SITE_CONFIG.governingBody,
+          slogan: finalCfgData.slogan || finalCfgData.slogan || INITIAL_SITE_CONFIG.slogan,
+          address: finalCfgData.address || finalCfgData.address || INITIAL_SITE_CONFIG.address,
+          phone: finalCfgData.phone || finalCfgData.phone || INITIAL_SITE_CONFIG.phone,
+          email: finalCfgData.email || finalCfgData.email || INITIAL_SITE_CONFIG.email,
+          logoUrl: finalCfgData.logo_url || finalCfgData.logoUrl || INITIAL_SITE_CONFIG.logoUrl,
+          bannerBg: finalCfgData.banner_bg || finalCfgData.bannerBg || INITIAL_SITE_CONFIG.bannerBg
         };
         setSiteConfig(mergedConfig);
         try {
